@@ -5,11 +5,31 @@ interface User {
   email: string;
   name: string;
   avatar?: string;
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  country?: string;
+}
+
+interface GuestRegistrationData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  address: string;
+  country: string;
+  state: string;
+  city: string;
+  password: string;
 }
 
 interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => Promise<void>;
+  register: (data: GuestRegistrationData) => Promise<void>;
   logout: (callback?: () => void) => void;
   isAuthenticated: boolean;
   isInitialized: boolean;
@@ -30,6 +50,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string) => {
+    // Mock login - in production, this would call an API
     const mockUser: User = {
       id: 1,
       email: email,
@@ -38,6 +59,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
     setUser(mockUser);
     localStorage.setItem("user", JSON.stringify(mockUser));
+  };
+
+  const register = async (data: GuestRegistrationData) => {
+    // Mock registration - in production, this would call an API to create a new user
+    const newUser: User = {
+      id: Date.now(), // Generate a unique ID
+      email: data.email,
+      name: `${data.firstName} ${data.lastName}`,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      phone: data.phone,
+      address: data.address,
+      city: data.city,
+      state: data.state,
+      country: data.country,
+      avatar: undefined,
+    };
+    
+    setUser(newUser);
+    localStorage.setItem("user", JSON.stringify(newUser));
   };
 
   const logout = (callback?: () => void) => {
@@ -49,7 +90,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isAuthenticated: !!user, isInitialized }}>
+    <AuthContext.Provider 
+      value={{ 
+        user, 
+        login, 
+        register, 
+        logout, 
+        isAuthenticated: !!user, 
+        isInitialized 
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
