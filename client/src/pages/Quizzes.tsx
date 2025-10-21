@@ -147,7 +147,7 @@ export default function Quizzes() {
                     <TableCell className="text-muted-foreground" data-testid={`cell-created-${quiz.id}`}>
                       {new Date(quiz.createdAt).toLocaleDateString()}
                     </TableCell>
-                    <TableCell className="text-right">
+                    <TableCell className="text-right" data-testid={`cell-action-${quiz.id}`}>
                       <Button
                         size="sm"
                         variant="outline"
