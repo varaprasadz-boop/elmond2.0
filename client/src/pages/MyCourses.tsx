@@ -20,11 +20,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { slugify } from "@/lib/slugify";
 
 export default function MyCourses() {
   const courses = [
     {
       id: 1,
+      slug: slugify("Basics of Digital Marketing"),
       title: "Basics of Digital Marketing",
       category: "Digital Marketing",
       progress: 75,
@@ -39,6 +41,7 @@ export default function MyCourses() {
     },
     {
       id: 2,
+      slug: slugify("Google Ads Mastery"),
       title: "Google Ads Mastery",
       category: "Digital Marketing",
       progress: 45,
@@ -53,6 +56,7 @@ export default function MyCourses() {
     },
     {
       id: 3,
+      slug: slugify("Meta Ads Mastery"),
       title: "Meta Ads Mastery",
       category: "Digital Marketing",
       progress: 100,
@@ -68,6 +72,7 @@ export default function MyCourses() {
     },
     {
       id: 4,
+      slug: slugify("SEO Mastery"),
       title: "SEO Mastery",
       category: "Digital Marketing",
       progress: 60,
@@ -82,6 +87,7 @@ export default function MyCourses() {
     },
     {
       id: 5,
+      slug: slugify("ICD 10 CM Module Training"),
       title: "ICD 10 CM Module Training",
       category: "Medical Coding",
       progress: 30,
@@ -96,6 +102,7 @@ export default function MyCourses() {
     },
     {
       id: 6,
+      slug: slugify("Ad Copy Mastery"),
       title: "Ad Copy Mastery",
       category: "Digital Marketing",
       progress: 100,
@@ -111,6 +118,7 @@ export default function MyCourses() {
     },
     {
       id: 7,
+      slug: slugify("Advanced Digital Marketing"),
       title: "Advanced Digital Marketing",
       category: "Digital Marketing",
       progress: 15,
@@ -125,6 +133,7 @@ export default function MyCourses() {
     },
     {
       id: 8,
+      slug: slugify("Digital Marketing Mastery"),
       title: "Digital Marketing Mastery",
       category: "Digital Marketing",
       progress: 100,
@@ -209,7 +218,7 @@ export default function MyCourses() {
               )}
 
               <div className="flex gap-2">
-                <Link href={`/learn/${course.id}`} data-testid={`button-continue-learning-${course.id}`} className="flex-1">
+                <Link href={`/learn/${course.slug}`} data-testid={`button-continue-learning-${course.id}`} className="flex-1">
                   <Button className="w-full">
                     <Play className="h-4 w-4 mr-2" />
                     {course.status === "completed" ? "Review Course" : "Continue Learning"}

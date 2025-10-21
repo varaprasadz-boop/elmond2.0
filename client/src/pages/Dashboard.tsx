@@ -15,6 +15,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from "recharts";
+import { slugify } from "@/lib/slugify";
 
 export default function Dashboard() {
   const user = {
@@ -35,6 +36,7 @@ export default function Dashboard() {
   const enrolledCourses = [
     {
       id: 1,
+      slug: slugify("Basics of Digital Marketing"),
       title: "Basics of Digital Marketing",
       category: "Digital Marketing",
       progress: 75,
@@ -46,6 +48,7 @@ export default function Dashboard() {
     },
     {
       id: 2,
+      slug: slugify("Google Ads Mastery"),
       title: "Google Ads Mastery",
       category: "Digital Marketing",
       progress: 45,
@@ -57,6 +60,7 @@ export default function Dashboard() {
     },
     {
       id: 3,
+      slug: slugify("Meta Ads Mastery"),
       title: "Meta Ads Mastery",
       category: "Digital Marketing",
       progress: 100,
@@ -68,6 +72,7 @@ export default function Dashboard() {
     },
     {
       id: 4,
+      slug: slugify("SEO Mastery"),
       title: "SEO Mastery",
       category: "Digital Marketing",
       progress: 60,
@@ -295,7 +300,7 @@ export default function Dashboard() {
                                 <span>Last: {course.lastAccessed}</span>
                               </div>
                               
-                              <Link href={`/learn/${course.id}`} data-testid={`button-continue-${course.id}`}>
+                              <Link href={`/learn/${course.slug}`} data-testid={`button-continue-${course.id}`}>
                                 <Button size="sm">
                                   <Play className="h-4 w-4 mr-1" />
                                   {course.status === "completed" ? "Review" : "Continue"}

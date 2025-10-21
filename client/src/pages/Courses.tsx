@@ -10,18 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-//todo: remove mock functionality - mock course data
-const mockCourses = [
-  { id: 4, title: "Basics of Digital Marketing", category: "Digital Marketing", duration: "1 month", students: 4, rating: 4.5, price: 899.10, originalPrice: 999.00, discount: 10 },
-  { id: 5, title: "Search Engine Optimization Mastery", category: "Digital Marketing", duration: "1 month", students: 1, rating: 4.0, price: 949.05, originalPrice: 999.00, discount: 5 },
-  { id: 6, title: "Meta Ads Mastery", category: "Digital Marketing", duration: "1 month", students: 1, rating: 4.2, price: 1899.05, originalPrice: 1999.00, discount: 5 },
-  { id: 7, title: "Google Ads Mastery", category: "Digital Marketing", duration: "1 month", students: 1, rating: 4.3, price: 1899.05, originalPrice: 1999.00, discount: 5 },
-  { id: 8, title: "Ad Copy Mastery", category: "Digital Marketing", duration: "1 month", students: 0, rating: 4.0, price: 1424.05, originalPrice: 1499.00, discount: 5 },
-  { id: 9, title: "ICD 10 CM Module Training", category: "Medical Coding", duration: "1 month", students: 1, rating: 4.5, price: 4749.05, originalPrice: 4999.00, discount: 5 },
-  { id: 10, title: "Digital Marketing Mastery", category: "Digital Marketing", duration: "6 days", students: 0, rating: 4.0, price: 4749.05, originalPrice: 4999.00, discount: 5 },
-  { id: 11, title: "Advanced Digital Marketing", category: "Digital Marketing", duration: "6 days", students: 0, rating: 4.5, price: 4749.05, originalPrice: 4999.00, discount: 5 },
-];
+import { mockCourses } from "@/data/mockData";
 
 export default function Courses() {
   const [searchTerm, setSearchTerm] = useState("");

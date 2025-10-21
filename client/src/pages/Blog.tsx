@@ -1,14 +1,5 @@
 import BlogCard from "@/components/BlogCard";
-
-//todo: remove mock functionality - mock blog data
-const mockBlogs = [
-  { id: 99, title: "Photoshop Create Path From Image", date: "Tue, Feb 27, 2024" },
-  { id: 98, title: "Photoshop Create Path From Image", date: "Tue, Feb 27, 2024" },
-  { id: 97, title: "Photoshop Create Path From Image", date: "Tue, Feb 27, 2024" },
-  { id: 96, title: "Photoshop Create Path From Image", date: "Tue, Feb 27, 2024" },
-  { id: 95, title: "Photoshop Create Path From Image", date: "Tue, Feb 27, 2024" },
-  { id: 94, title: "Lorem ipsum dolor sit amet consectetur adipisicing", date: "Tue, Feb 27, 2024" },
-];
+import { mockBlogs } from "@/data/mockData";
 
 export default function Blog() {
   return (
