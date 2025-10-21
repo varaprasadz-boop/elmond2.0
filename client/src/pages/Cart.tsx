@@ -27,6 +27,9 @@ export default function Cart() {
   const [isApplyingCoupon, setIsApplyingCoupon] = useState(false);
 
   // Guest checkout form state
+  // Note: Password is stored in React component state (ephemeral, memory-only) for validation
+  // This is standard practice and secure - the password is NEVER persisted to sessionStorage/localStorage
+  // React state is cleared when component unmounts or page refreshes
   const [guestFormData, setGuestFormData] = useState({
     firstName: "",
     lastName: "",
@@ -99,8 +102,11 @@ export default function Cart() {
       return;
     }
 
-    // Store guest data in sessionStorage to be used in checkout
-    sessionStorage.setItem("guestCheckoutData", JSON.stringify(guestFormData));
+    // Store guest data in sessionStorage WITHOUT password for security
+    // In production, this would be sent to the server for registration
+    const { password, confirmPassword, ...safeGuestData } = guestFormData;
+    sessionStorage.setItem("guestCheckoutData", JSON.stringify(safeGuestData));
+    // In production, password would be securely sent to backend API here
     navigate("/checkout");
   };
 

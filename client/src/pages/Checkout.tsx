@@ -17,6 +17,7 @@ export default function Checkout() {
   const [, navigate] = useLocation();
   const [paymentMethod, setPaymentMethod] = useState("card");
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isRegistering, setIsRegistering] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -27,10 +28,18 @@ export default function Checkout() {
     upiId: "",
   });
 
+  // Check for empty cart and redirect
+  useEffect(() => {
+    if (items.length === 0) {
+      navigate("/cart");
+    }
+  }, [items.length, navigate]);
+
   // Auto-register guest user if checkout data exists
   useEffect(() => {
     const guestData = sessionStorage.getItem("guestCheckoutData");
-    if (guestData && !isAuthenticated) {
+    if (guestData && !isAuthenticated && !isRegistering) {
+      setIsRegistering(true);
       const data = JSON.parse(guestData);
       
       // Auto-register the guest user
@@ -42,6 +51,7 @@ export default function Checkout() {
           });
           // Clear guest data from session storage
           sessionStorage.removeItem("guestCheckoutData");
+          setIsRegistering(false);
         })
         .catch((error) => {
           console.error("Registration error:", error);
@@ -50,11 +60,14 @@ export default function Checkout() {
             description: "Failed to create account. Please try again.",
             variant: "destructive",
           });
-          navigate("/cart");
+          setIsRegistering(false);
+          setTimeout(() => navigate("/cart"), 1000);
         });
     }
+  }, [register, isAuthenticated, toast, navigate, isRegistering]);
 
-    // Pre-fill form if user is logged in
+  // Pre-fill form if user is logged in
+  useEffect(() => {
     if (user) {
       setFormData((prev) => ({
         ...prev,
@@ -63,7 +76,7 @@ export default function Checkout() {
         phone: user.phone || "",
       }));
     }
-  }, [register, isAuthenticated, user, toast, navigate]);
+  }, [user]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -100,13 +113,20 @@ export default function Checkout() {
     }
   };
 
-  if (items.length === 0) {
-    navigate("/cart");
-    return null;
-  }
-
   const taxAmount = total * 0.18;
   const grandTotal = finalTotal + taxAmount;
+
+  // Show loading state during guest registration
+  if (isRegistering) {
+    return (
+      <div className="min-h-screen py-12 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Creating your account...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen py-12">

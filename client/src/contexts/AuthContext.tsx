@@ -23,7 +23,8 @@ interface GuestRegistrationData {
   country: string;
   state: string;
   city: string;
-  password: string;
+  // Note: password is intentionally excluded - it should be sent to backend API
+  // and NEVER stored in localStorage or sessionStorage
 }
 
 interface AuthContextType {
@@ -62,9 +63,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const register = async (data: GuestRegistrationData) => {
-    // Mock registration - in production, this would call an API to create a new user
+    // Mock registration - in production, this would call a backend API to create a new user
+    // The password would be sent to the backend API securely (HTTPS) and hashed server-side
+    // NEVER store passwords in localStorage or sessionStorage
     const newUser: User = {
-      id: Date.now(), // Generate a unique ID
+      id: Date.now(), // Generate a unique ID (in production, this comes from the database)
       email: data.email,
       name: `${data.firstName} ${data.lastName}`,
       firstName: data.firstName,
@@ -78,6 +81,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
     
     setUser(newUser);
+    // Only storing safe user data (no password) in localStorage
     localStorage.setItem("user", JSON.stringify(newUser));
   };
 
