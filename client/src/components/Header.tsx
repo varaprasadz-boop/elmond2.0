@@ -154,8 +154,9 @@ export default function Header() {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem 
                     onClick={() => {
-                      logout();
-                      navigate("/");
+                      logout(() => {
+                        navigate("/");
+                      });
                     }}
                     data-testid="button-logout"
                   >

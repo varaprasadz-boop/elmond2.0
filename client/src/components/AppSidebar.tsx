@@ -57,8 +57,9 @@ export function AppSidebar() {
   const [location, navigate] = useLocation();
 
   const handleLogout = () => {
-    logout();
-    navigate("/");
+    logout(() => {
+      navigate("/");
+    });
   };
 
   return (

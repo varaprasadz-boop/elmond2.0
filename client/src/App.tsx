@@ -64,22 +64,26 @@ function Router() {
 
 function AppContent() {
   const [location] = useLocation();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isInitialized } = useAuth();
 
-  const authenticatedRoutes = [
-    '/dashboard',
-    '/my-courses',
-    '/learn',
-    '/profile',
-    '/certificates',
-    '/my-purchases'
-  ];
+  const isAuthenticatedRoute = (path: string): boolean => {
+    const authenticatedRoutePatterns = [
+      /^\/dashboard$/,
+      /^\/my-courses$/,
+      /^\/learn(\/[^/]+)?$/,
+      /^\/profile$/,
+      /^\/certificates$/,
+      /^\/my-purchases$/,
+    ];
+    
+    return authenticatedRoutePatterns.some(pattern => pattern.test(path));
+  };
 
-  const isAuthenticatedRoute = authenticatedRoutes.some(route => 
-    location.startsWith(route)
-  );
+  if (!isInitialized) {
+    return null;
+  }
 
-  const showSidebar = isAuthenticated && isAuthenticatedRoute;
+  const showSidebar = isAuthenticated && isAuthenticatedRoute(location);
 
   const sidebarStyle = {
     "--sidebar-width": "16rem",

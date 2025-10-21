@@ -10,20 +10,23 @@ interface User {
 interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => Promise<void>;
-  logout: () => void;
+  logout: (callback?: () => void) => void;
   isAuthenticated: boolean;
+  isInitialized: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
+    setIsInitialized(true);
   }, []);
 
   const login = async (email: string, password: string) => {
@@ -37,13 +40,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("user", JSON.stringify(mockUser));
   };
 
-  const logout = () => {
+  const logout = (callback?: () => void) => {
     setUser(null);
     localStorage.removeItem("user");
+    if (callback) {
+      setTimeout(callback, 0);
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isAuthenticated: !!user }}>
+    <AuthContext.Provider value={{ user, login, logout, isAuthenticated: !!user, isInitialized }}>
       {children}
     </AuthContext.Provider>
   );
