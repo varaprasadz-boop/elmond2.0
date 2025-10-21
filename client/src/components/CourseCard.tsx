@@ -94,21 +94,20 @@ export default function CourseCard({
         </div>
       </CardContent>
 
-      <CardFooter className="p-4 pt-0 flex items-center justify-between gap-2">
-        <div className="flex flex-col">
-          <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-bold text-primary" data-testid={`text-price-${id}`}>
-              ₹{price.toFixed(2)}
+      <CardFooter className="p-4 pt-0 flex flex-col gap-3">
+        <div className="flex items-baseline gap-2">
+          <span className="text-2xl font-bold text-primary" data-testid={`text-price-${id}`}>
+            ₹{price.toFixed(2)}
+          </span>
+          {discount > 0 && (
+            <span className="text-sm text-muted-foreground line-through" data-testid={`text-original-price-${id}`}>
+              ₹{originalPrice.toFixed(2)}
             </span>
-            {discount > 0 && (
-              <span className="text-sm text-muted-foreground line-through" data-testid={`text-original-price-${id}`}>
-                ₹{originalPrice.toFixed(2)}
-              </span>
-            )}
-          </div>
+          )}
         </div>
         <Button 
-          variant="outline" 
+          variant="default"
+          className="w-full"
           onClick={handleAddToCart}
           disabled={isInCart}
           data-testid={`button-add-cart-${id}`}
