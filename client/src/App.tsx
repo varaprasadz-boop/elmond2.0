@@ -1,10 +1,12 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, useLocation } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { CartProvider } from "@/contexts/CartContext";
-import { AuthProvider } from "@/contexts/AuthContext";
+import { AuthProvider, useAuth } from "@/contexts/AuthContext";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/AppSidebar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -60,22 +62,74 @@ function Router() {
   );
 }
 
+function AppContent() {
+  const [location] = useLocation();
+  const { isAuthenticated } = useAuth();
+
+  const authenticatedRoutes = [
+    '/dashboard',
+    '/my-courses',
+    '/learn',
+    '/profile',
+    '/certificates',
+    '/my-purchases'
+  ];
+
+  const isAuthenticatedRoute = authenticatedRoutes.some(route => 
+    location.startsWith(route)
+  );
+
+  const showSidebar = isAuthenticated && isAuthenticatedRoute;
+
+  const sidebarStyle = {
+    "--sidebar-width": "16rem",
+    "--sidebar-width-icon": "3rem",
+  };
+
+  if (showSidebar) {
+    return (
+      <SidebarProvider style={sidebarStyle as React.CSSProperties}>
+        <div className="flex h-screen w-full">
+          <AppSidebar />
+          <div className="flex flex-col flex-1 overflow-hidden">
+            <header className="flex items-center justify-between p-4 border-b bg-background">
+              <SidebarTrigger data-testid="button-sidebar-toggle" />
+              <div className="flex items-center gap-2">
+                <WhatsAppButton />
+              </div>
+            </header>
+            <main className="flex-1 overflow-auto">
+              <Router />
+            </main>
+          </div>
+        </div>
+        <Toaster />
+        <CookieConsent />
+      </SidebarProvider>
+    );
+  }
+
+  return (
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <main className="flex-1">
+        <Router />
+      </main>
+      <Footer />
+      <WhatsAppButton />
+      <CookieConsent />
+      <Toaster />
+    </div>
+  );
+}
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <AuthProvider>
           <CartProvider>
-            <div className="flex flex-col min-h-screen">
-              <Header />
-              <main className="flex-1">
-                <Router />
-              </main>
-              <Footer />
-              <WhatsAppButton />
-              <CookieConsent />
-            </div>
-            <Toaster />
+            <AppContent />
           </CartProvider>
         </AuthProvider>
       </TooltipProvider>
