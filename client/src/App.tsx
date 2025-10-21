@@ -111,40 +111,42 @@ function AppContent() {
 
   if (showSidebar) {
     return (
-      <SidebarProvider style={sidebarStyle as React.CSSProperties}>
-        <ScrollToTop />
-        <div className="flex h-screen w-full">
-          <AppSidebar />
-          <div className="flex flex-col flex-1 overflow-hidden">
-            <header className="flex items-center justify-between p-4 border-b bg-background">
-              <SidebarTrigger data-testid="button-sidebar-toggle" />
-              <div className="flex items-center gap-2">
-                <WhatsAppButton />
-              </div>
-            </header>
-            <main className="flex-1 overflow-auto">
-              <Router />
-            </main>
+      <>
+        <SidebarProvider style={sidebarStyle as React.CSSProperties}>
+          <ScrollToTop />
+          <div className="flex h-screen w-full">
+            <AppSidebar />
+            <div className="flex flex-col flex-1 overflow-hidden">
+              <header className="flex items-center justify-between p-4 border-b bg-background">
+                <SidebarTrigger data-testid="button-sidebar-toggle" />
+              </header>
+              <main className="flex-1 overflow-auto">
+                <Router />
+              </main>
+            </div>
           </div>
-        </div>
-        <Toaster />
-        <CookieConsent />
-      </SidebarProvider>
+          <Toaster />
+          <CookieConsent />
+        </SidebarProvider>
+        <WhatsAppButton />
+      </>
     );
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <ScrollToTop />
-      <Header />
-      <main className="flex-1">
-        <Router />
-      </main>
-      <Footer />
+    <>
+      <div className="flex flex-col min-h-screen">
+        <ScrollToTop />
+        <Header />
+        <main className="flex-1">
+          <Router />
+        </main>
+        <Footer />
+        <CookieConsent />
+        <Toaster />
+      </div>
       <WhatsAppButton />
-      <CookieConsent />
-      <Toaster />
-    </div>
+    </>
   );
 }
 
