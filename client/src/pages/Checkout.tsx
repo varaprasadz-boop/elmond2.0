@@ -1,17 +1,22 @@
+import { useEffect, useState } from "react";
 import { useCart } from "@/contexts/CartContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
 import { useLocation } from "wouter";
-import { CreditCard, Smartphone } from "lucide-react";
+import { CreditCard, Smartphone, Tag } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Checkout() {
-  const { items, total, clearCart } = useCart();
+  const { items, total, finalTotal, couponDiscount, appliedCoupon, clearCart } = useCart();
+  const { user, register, isAuthenticated } = useAuth();
+  const { toast } = useToast();
   const [, navigate] = useLocation();
   const [paymentMethod, setPaymentMethod] = useState("card");
+  const [isProcessing, setIsProcessing] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -19,20 +24,89 @@ export default function Checkout() {
     cardNumber: "",
     expiryDate: "",
     cvv: "",
+    upiId: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Auto-register guest user if checkout data exists
+  useEffect(() => {
+    const guestData = sessionStorage.getItem("guestCheckoutData");
+    if (guestData && !isAuthenticated) {
+      const data = JSON.parse(guestData);
+      
+      // Auto-register the guest user
+      register(data)
+        .then(() => {
+          toast({
+            title: "Account Created",
+            description: "Your account has been created successfully. Please complete the payment.",
+          });
+          // Clear guest data from session storage
+          sessionStorage.removeItem("guestCheckoutData");
+        })
+        .catch((error) => {
+          console.error("Registration error:", error);
+          toast({
+            title: "Registration Error",
+            description: "Failed to create account. Please try again.",
+            variant: "destructive",
+          });
+          navigate("/cart");
+        });
+    }
+
+    // Pre-fill form if user is logged in
+    if (user) {
+      setFormData((prev) => ({
+        ...prev,
+        name: user.name || "",
+        email: user.email || "",
+        phone: user.phone || "",
+      }));
+    }
+  }, [register, isAuthenticated, user, toast, navigate]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Processing payment:", { formData, paymentMethod, total });
-    alert("Payment processed successfully! You will receive a confirmation email shortly.");
-    clearCart();
-    navigate("/");
+    setIsProcessing(true);
+
+    try {
+      // Simulate payment processing
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      console.log("Processing payment:", {
+        formData,
+        paymentMethod,
+        total: finalTotal,
+        coupon: appliedCoupon?.code,
+        user: user?.email,
+      });
+
+      toast({
+        title: "Payment Successful!",
+        description: "Your order has been placed successfully. You will receive a confirmation email shortly.",
+      });
+
+      clearCart();
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Payment error:", error);
+      toast({
+        title: "Payment Failed",
+        description: "There was an error processing your payment. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   if (items.length === 0) {
     navigate("/cart");
     return null;
   }
+
+  const taxAmount = total * 0.18;
+  const grandTotal = finalTotal + taxAmount;
 
   return (
     <div className="min-h-screen py-12">
@@ -146,6 +220,8 @@ export default function Checkout() {
                       <Input
                         id="upiId"
                         placeholder="username@upi"
+                        value={formData.upiId}
+                        onChange={(e) => setFormData({ ...formData, upiId: e.target.value })}
                         required
                         data-testid="input-upi-id"
                       />
@@ -153,8 +229,14 @@ export default function Checkout() {
                   )}
 
                   <div className="pt-6">
-                    <Button type="submit" className="w-full" size="lg" data-testid="button-complete-payment">
-                      Complete Payment
+                    <Button
+                      type="submit"
+                      className="w-full"
+                      size="lg"
+                      disabled={isProcessing}
+                      data-testid="button-complete-payment"
+                    >
+                      {isProcessing ? "Processing..." : "Complete Payment"}
                     </Button>
                   </div>
                 </form>
@@ -178,18 +260,30 @@ export default function Checkout() {
 
                 <div className="border-t pt-4 space-y-2 mb-6">
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Subtotal</span>
-                    <span>₹{total.toFixed(2)}</span>
+                    <span className="text-muted-foreground">Item Subtotal</span>
+                    <span data-testid="text-checkout-subtotal">₹{total.toFixed(2)}</span>
                   </div>
+                  
+                  {appliedCoupon && couponDiscount > 0 && (
+                    <div className="flex justify-between text-green-600">
+                      <span className="flex items-center gap-1">
+                        <Tag className="h-4 w-4" />
+                        Coupon ({appliedCoupon.code})
+                      </span>
+                      <span data-testid="text-checkout-coupon-discount">-₹{couponDiscount.toFixed(2)}</span>
+                    </div>
+                  )}
+
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Tax</span>
-                    <span>₹0.00</span>
+                    <span className="text-muted-foreground">18% IGST</span>
+                    <span data-testid="text-checkout-tax">₹{taxAmount.toFixed(2)}</span>
                   </div>
+
                   <div className="border-t pt-2">
                     <div className="flex justify-between items-baseline">
-                      <span className="font-semibold text-lg">Total</span>
+                      <span className="font-semibold text-lg">Grand Total</span>
                       <span className="text-2xl font-bold text-primary" data-testid="text-checkout-total">
-                        ₹{total.toFixed(2)}
+                        ₹{grandTotal.toFixed(2)}
                       </span>
                     </div>
                   </div>
