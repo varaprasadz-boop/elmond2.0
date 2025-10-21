@@ -21,8 +21,18 @@ import {
 } from "@/components/ui/table";
 import { Plus } from "lucide-react";
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
-const tickets = [
+interface Ticket {
+  id: number;
+  ticketNumber: string;
+  subject: string;
+  status: string;
+  priority: string;
+  lastReply: string;
+}
+
+const initialTickets: Ticket[] = [
   {
     id: 1,
     ticketNumber: "605129",
@@ -66,7 +76,16 @@ const tickets = [
 ];
 
 export default function SupportTicket() {
+  const [tickets, setTickets] = useState<Ticket[]>(initialTickets);
   const [showCreateTicket, setShowCreateTicket] = useState(false);
+  const [formData, setFormData] = useState({
+    subject: "",
+    category: "",
+    priority: "",
+    course: "",
+    description: "",
+  });
+  const { toast } = useToast();
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -96,6 +115,42 @@ export default function SupportTicket() {
     }
   };
 
+  const handleSubmitTicket = () => {
+    if (!formData.subject || !formData.category || !formData.priority || !formData.description) {
+      toast({
+        title: "Error",
+        description: "Please fill in all required fields",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const newTicketNumber = (605130 + tickets.length).toString();
+    const newTicket: Ticket = {
+      id: tickets.length + 1,
+      ticketNumber: newTicketNumber,
+      subject: formData.subject,
+      status: "open",
+      priority: formData.priority,
+      lastReply: "Just now",
+    };
+
+    setTickets([newTicket, ...tickets]);
+    setFormData({
+      subject: "",
+      category: "",
+      priority: "",
+      course: "",
+      description: "",
+    });
+    setShowCreateTicket(false);
+
+    toast({
+      title: "Success",
+      description: `Ticket #${newTicketNumber} has been created successfully`,
+    });
+  };
+
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex items-center justify-between">
@@ -120,13 +175,15 @@ export default function SupportTicket() {
               <Input
                 id="subject"
                 placeholder="Brief description of your issue"
+                value={formData.subject}
+                onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                 data-testid="input-ticket-subject"
               />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="category">Category</Label>
-                <Select>
+                <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
                   <SelectTrigger id="category" data-testid="select-category">
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
@@ -141,7 +198,7 @@ export default function SupportTicket() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="priority">Priority</Label>
-                <Select>
+                <Select value={formData.priority} onValueChange={(value) => setFormData({ ...formData, priority: value })}>
                   <SelectTrigger id="priority" data-testid="select-priority">
                     <SelectValue placeholder="Select priority" />
                   </SelectTrigger>
@@ -155,7 +212,7 @@ export default function SupportTicket() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="course">Related Course (Optional)</Label>
-              <Select>
+              <Select value={formData.course} onValueChange={(value) => setFormData({ ...formData, course: value })}>
                 <SelectTrigger id="course" data-testid="select-course">
                   <SelectValue placeholder="Select course" />
                 </SelectTrigger>
@@ -172,12 +229,14 @@ export default function SupportTicket() {
                 id="description"
                 placeholder="Please provide detailed information about your issue..."
                 rows={6}
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 data-testid="textarea-ticket-description"
               />
             </div>
           </CardContent>
           <CardFooter className="gap-2">
-            <Button data-testid="button-submit-ticket">Submit Ticket</Button>
+            <Button onClick={handleSubmitTicket} data-testid="button-submit-ticket">Submit Ticket</Button>
             <Button variant="outline" onClick={() => setShowCreateTicket(false)} data-testid="button-cancel-ticket">
               Cancel
             </Button>
@@ -204,15 +263,15 @@ export default function SupportTicket() {
             <TableBody>
               {tickets.map((ticket, index) => (
                 <TableRow key={ticket.id} data-testid={`row-ticket-${ticket.id}`}>
-                  <TableCell className="font-medium">{index + 1}</TableCell>
-                  <TableCell>
+                  <TableCell className="font-medium" data-testid={`cell-sl-${ticket.id}`}>{index + 1}</TableCell>
+                  <TableCell data-testid={`cell-subject-${ticket.id}`}>
                     <div className="font-medium">
                       [Ticket#{ticket.ticketNumber}] {ticket.subject}
                     </div>
                   </TableCell>
-                  <TableCell>{getStatusBadge(ticket.status)}</TableCell>
-                  <TableCell>{getPriorityBadge(ticket.priority)}</TableCell>
-                  <TableCell className="text-muted-foreground">{ticket.lastReply}</TableCell>
+                  <TableCell data-testid={`cell-status-${ticket.id}`}>{getStatusBadge(ticket.status)}</TableCell>
+                  <TableCell data-testid={`cell-priority-${ticket.id}`}>{getPriorityBadge(ticket.priority)}</TableCell>
+                  <TableCell className="text-muted-foreground" data-testid={`cell-last-reply-${ticket.id}`}>{ticket.lastReply}</TableCell>
                   <TableCell className="text-right">
                     <Button 
                       size="sm" 
