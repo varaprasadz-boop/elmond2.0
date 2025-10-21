@@ -112,25 +112,88 @@ export default function Learn() {
         </div>
 
         <div className="flex-1 overflow-auto bg-black flex items-center justify-center">
-          <div className="text-center">
-            <div className="w-32 h-32 mx-auto mb-6 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full flex items-center justify-center">
-              <PlayCircle className="h-16 w-16 text-white" />
+          {currentLessonData.type === "video" ? (
+            <div className="w-full max-w-5xl p-4">
+              <div className="bg-background/5 rounded-lg p-4 mb-4">
+                <h2 className="text-white text-xl font-bold mb-2" data-testid="text-current-lesson-title">
+                  {currentLessonData.title}
+                </h2>
+                <div className="flex items-center gap-2">
+                  <Badge variant="secondary">Video Lesson</Badge>
+                  <span className="text-white/70 text-sm">Duration: {currentLessonData.duration}</span>
+                  {currentLessonData.completed && (
+                    <Badge className="bg-green-600">
+                      <CheckCircle2 className="h-3 w-3 mr-1" />
+                      Completed
+                    </Badge>
+                  )}
+                </div>
+              </div>
+              
+              {/* Protected Video Player - No Download Options */}
+              <div 
+                className="relative w-full aspect-video bg-black rounded-lg overflow-hidden"
+                onContextMenu={(e) => e.preventDefault()}
+              >
+                <video
+                  controls
+                  controlsList="nodownload noremoteplayback"
+                  disablePictureInPicture
+                  onContextMenu={(e) => e.preventDefault()}
+                  className="w-full h-full"
+                  data-testid="video-player"
+                  poster="/api/placeholder/1280/720"
+                >
+                  {/* In production, this would be a streaming URL from your video hosting service */}
+                  <source src="https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+                
+                {/* Watermark overlay (optional) */}
+                <div className="absolute top-4 right-4 text-white/30 text-xs pointer-events-none select-none">
+                  Elmond LMS - Protected Content
+                </div>
+              </div>
+              
+              <div className="mt-4 text-white/50 text-xs text-center">
+                ⚠️ This content is protected. Download and screen recording are prohibited.
+              </div>
             </div>
-            <h2 className="text-white text-2xl font-bold mb-2" data-testid="text-current-lesson-title">
-              {currentLessonData.title}
-            </h2>
-            <Badge variant="secondary" className="mb-4">
-              {currentLessonData.type === "video" ? "Video Lesson" : 
-               currentLessonData.type === "quiz" ? "Quiz" : "Assignment"}
-            </Badge>
-            <p className="text-white/70 mb-6">Duration: {currentLessonData.duration}</p>
-            {currentLessonData.completed && (
-              <Badge className="bg-green-600">
-                <CheckCircle2 className="h-3 w-3 mr-1" />
-                Completed
-              </Badge>
-            )}
-          </div>
+          ) : currentLessonData.type === "quiz" ? (
+            <div className="text-center">
+              <div className="w-32 h-32 mx-auto mb-6 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full flex items-center justify-center">
+                <FileText className="h-16 w-16 text-white" />
+              </div>
+              <h2 className="text-white text-2xl font-bold mb-2" data-testid="text-current-lesson-title">
+                {currentLessonData.title}
+              </h2>
+              <Badge variant="secondary" className="mb-4">Quiz</Badge>
+              <p className="text-white/70 mb-6">Duration: {currentLessonData.duration}</p>
+              {currentLessonData.completed && (
+                <Badge className="bg-green-600">
+                  <CheckCircle2 className="h-3 w-3 mr-1" />
+                  Completed
+                </Badge>
+              )}
+            </div>
+          ) : (
+            <div className="text-center">
+              <div className="w-32 h-32 mx-auto mb-6 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full flex items-center justify-center">
+                <FileText className="h-16 w-16 text-white" />
+              </div>
+              <h2 className="text-white text-2xl font-bold mb-2" data-testid="text-current-lesson-title">
+                {currentLessonData.title}
+              </h2>
+              <Badge variant="secondary" className="mb-4">Assignment</Badge>
+              <p className="text-white/70 mb-6">Duration: {currentLessonData.duration}</p>
+              {currentLessonData.completed && (
+                <Badge className="bg-green-600">
+                  <CheckCircle2 className="h-3 w-3 mr-1" />
+                  Completed
+                </Badge>
+              )}
+            </div>
+          )}
         </div>
 
         <div className="border-t p-4 bg-background">

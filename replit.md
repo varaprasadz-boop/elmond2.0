@@ -166,3 +166,35 @@ Preferred communication style: Simple, everyday language.
 ### Analytics & Monitoring
 - Placeholder for user behavior tracking
 - Course completion analytics structure in database schema
+
+## Content Protection Policy
+
+**Critical Requirement:** All educational content (videos, audio, presentations, documents) MUST implement download protection measures.
+
+### Protection Standards
+
+**Videos:**
+- Use HTML5 video player with `controlsList="nodownload"`
+- Disable Picture-in-Picture mode
+- Prevent right-click context menu
+- Use streaming URLs only (never direct file downloads)
+
+**Audio:**
+- Use HTML5 audio player with `controlsList="nodownload"`
+- Prevent right-click context menu
+- Use streaming URLs only
+
+**Documents (PDFs, presentations):**
+- Display via iframe or embedded viewers (Google Docs Viewer)
+- No download buttons
+- Prevent right-click context menu
+- Use view-only access
+
+**Additional Protections:**
+- Disable text selection on protected content
+- Block keyboard shortcuts (Ctrl+S, Ctrl+P)
+- Prevent image dragging
+- Implement watermarking where applicable
+- Use server-side URL signing with expiration
+
+**Reference:** See `CONTENT_PROTECTION.md` for complete implementation guidelines
