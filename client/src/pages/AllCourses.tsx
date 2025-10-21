@@ -18,7 +18,6 @@ const mockCourses = [
     students: 12450,
     duration: "42 hours",
     price: 49.99,
-    image: "📱",
     level: "Beginner"
   },
   {
@@ -31,7 +30,6 @@ const mockCourses = [
     students: 8920,
     duration: "35 hours",
     price: 89.99,
-    image: "🏥",
     level: "Intermediate"
   },
   {
@@ -44,7 +42,6 @@ const mockCourses = [
     students: 15200,
     duration: "28 hours",
     price: 59.99,
-    image: "💰",
     level: "Advanced"
   },
   {
@@ -57,7 +54,6 @@ const mockCourses = [
     students: 6780,
     duration: "25 hours",
     price: 69.99,
-    image: "📋",
     level: "Beginner"
   },
   {
@@ -70,7 +66,6 @@ const mockCourses = [
     students: 18500,
     duration: "32 hours",
     price: 54.99,
-    image: "📱",
     level: "Intermediate"
   },
   {
@@ -83,7 +78,6 @@ const mockCourses = [
     students: 5640,
     duration: "30 hours",
     price: 79.99,
-    image: "⚕️",
     level: "Advanced"
   },
 ];
@@ -141,8 +135,7 @@ export default function AllCourses() {
         {filteredCourses.map((course) => (
           <Card key={course.id} className="flex flex-col" data-testid={`card-course-${course.id}`}>
             <CardHeader>
-              <div className="flex items-start justify-between">
-                <div className="text-4xl mb-2">{course.image}</div>
+              <div className="flex items-start justify-between mb-2">
                 <Badge variant="outline">{course.level}</Badge>
               </div>
               <CardTitle className="line-clamp-2">{course.title}</CardTitle>
