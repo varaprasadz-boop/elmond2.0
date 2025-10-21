@@ -1,19 +1,25 @@
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Menu, X, ChevronDown, ShoppingCart } from "lucide-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Menu, X, ChevronDown, ShoppingCart, User, BookOpen, Award, CreditCard, LogOut, LayoutDashboard } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/contexts/CartContext";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
+  DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { itemCount } = useCart();
+  const { user, logout, isAuthenticated } = useAuth();
+  const [, navigate] = useLocation();
 
   const categories = [
     "Digital Marketing",
@@ -93,12 +99,81 @@ export default function Header() {
                 )}
               </Button>
             </Link>
-            <Link href="/login" data-testid="link-login">
-              <Button variant="ghost">Login</Button>
-            </Link>
-            <Link href="/signup" data-testid="link-signup">
-              <Button variant="default">Sign Up</Button>
-            </Link>
+            
+            {isAuthenticated ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="gap-2" data-testid="button-user-menu">
+                    <Avatar className="h-8 w-8">
+                      <AvatarFallback>
+                        {user?.name.split(" ").map(n => n[0]).join("") || "U"}
+                      </AvatarFallback>
+                    </Avatar>
+                    <span className="hidden lg:inline">{user?.name}</span>
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuLabel>
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium">{user?.name}</p>
+                      <p className="text-xs text-muted-foreground">{user?.email}</p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard" data-testid="link-dashboard">
+                      <LayoutDashboard className="h-4 w-4 mr-2" />
+                      Dashboard
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/my-courses" data-testid="link-my-courses">
+                      <BookOpen className="h-4 w-4 mr-2" />
+                      My Courses
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/certificates" data-testid="link-certificates">
+                      <Award className="h-4 w-4 mr-2" />
+                      Certificates
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/my-purchases" data-testid="link-my-purchases">
+                      <CreditCard className="h-4 w-4 mr-2" />
+                      My Purchases
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile" data-testid="link-profile">
+                      <User className="h-4 w-4 mr-2" />
+                      Profile Settings
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem 
+                    onClick={() => {
+                      logout();
+                      navigate("/");
+                    }}
+                    data-testid="button-logout"
+                  >
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <>
+                <Link href="/login" data-testid="link-login">
+                  <Button variant="ghost">Login</Button>
+                </Link>
+                <Link href="/signup" data-testid="link-signup">
+                  <Button variant="default">Sign Up</Button>
+                </Link>
+              </>
+            )}
           </div>
 
           <button

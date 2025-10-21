@@ -3,8 +3,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Login() {
   const [userType, setUserType] = useState<"user" | "instructor">("user");
@@ -13,12 +15,27 @@ export default function Login() {
     password: "",
     remember: false
   });
+  const { login } = useAuth();
+  const [, navigate] = useLocation();
+  const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(`${userType} login:`, credentials);
-    // todo: remove mock functionality - connect to backend API
-    alert("Login functionality will be connected to backend");
+    
+    if (credentials.username === "varaprasadz@gmail.com" && credentials.password === "asdfghjkl") {
+      await login(credentials.username, credentials.password);
+      toast({
+        title: "Welcome back!",
+        description: "You have successfully logged in",
+      });
+      navigate("/dashboard");
+    } else {
+      toast({
+        title: "Login failed",
+        description: "Invalid credentials. Use varaprasadz@gmail.com / asdfghjkl",
+        variant: "destructive",
+      });
+    }
   };
 
   return (

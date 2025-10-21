@@ -1,0 +1,239 @@
+import { useRoute } from "wouter";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
+  ChevronLeft,
+  ChevronRight,
+  CheckCircle2,
+  Lock,
+  PlayCircle,
+  FileText,
+  Download,
+  MessageSquare,
+} from "lucide-react";
+import { useState } from "react";
+
+export default function Learn() {
+  const [, params] = useRoute("/learn/:id");
+  const courseId = params?.id;
+  const [currentLesson, setCurrentLesson] = useState(0);
+
+  const course = {
+    id: courseId,
+    title: "Basics of Digital Marketing",
+    category: "Digital Marketing",
+    progress: 75,
+    modules: [
+      {
+        title: "Introduction to Digital Marketing",
+        lessons: [
+          { id: 1, title: "What is Digital Marketing?", duration: "15:30", type: "video", completed: true, isFree: true },
+          { id: 2, title: "Digital Marketing Channels Overview", duration: "20:45", type: "video", completed: true, isFree: true },
+          { id: 3, title: "Quiz: Introduction", duration: "10:00", type: "quiz", completed: true, isFree: false },
+        ]
+      },
+      {
+        title: "Search Engine Optimization (SEO)",
+        lessons: [
+          { id: 4, title: "SEO Fundamentals", duration: "25:15", type: "video", completed: true, isFree: false },
+          { id: 5, title: "Keyword Research Basics", duration: "30:20", type: "video", completed: true, isFree: false },
+          { id: 6, title: "On-Page SEO Techniques", duration: "28:40", type: "video", completed: true, isFree: false },
+          { id: 7, title: "Assignment: SEO Audit", duration: "45:00", type: "assignment", completed: false, isFree: false },
+        ]
+      },
+      {
+        title: "Social Media Marketing",
+        lessons: [
+          { id: 8, title: "Social Media Platforms Overview", duration: "18:30", type: "video", completed: true, isFree: false },
+          { id: 9, title: "Content Planning & Strategy", duration: "22:15", type: "video", completed: false, isFree: false },
+          { id: 10, title: "Creating Engaging Posts", duration: "20:00", type: "video", completed: false, isFree: false },
+        ]
+      },
+      {
+        title: "Email Marketing",
+        lessons: [
+          { id: 11, title: "Email Marketing Basics", duration: "16:45", type: "video", completed: false, isFree: false },
+          { id: 12, title: "Building Email Lists", duration: "19:30", type: "video", completed: false, isFree: false },
+          { id: 13, title: "Email Campaign Design", duration: "24:20", type: "video", completed: false, isFree: false },
+          { id: 14, title: "Quiz: Email Marketing", duration: "15:00", type: "quiz", completed: false, isFree: false },
+        ]
+      },
+    ]
+  };
+
+  const allLessons = course.modules.flatMap(m => m.lessons);
+  const currentLessonData = allLessons[currentLesson];
+  const completedLessons = allLessons.filter(l => l.completed).length;
+  const totalLessons = allLessons.length;
+
+  const handleNextLesson = () => {
+    if (currentLesson < allLessons.length - 1) {
+      setCurrentLesson(currentLesson + 1);
+    }
+  };
+
+  const handlePrevLesson = () => {
+    if (currentLesson > 0) {
+      setCurrentLesson(currentLesson - 1);
+    }
+  };
+
+  return (
+    <div className="flex h-screen">
+      <div className="flex-1 flex flex-col">
+        <div className="border-b p-4">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            <div className="flex-1 min-w-0">
+              <h1 className="font-display font-bold text-xl truncate" data-testid="text-learn-course-title">
+                {course.title}
+              </h1>
+              <div className="flex items-center gap-4 mt-2">
+                <div className="flex-1 max-w-md">
+                  <div className="flex justify-between text-sm mb-1">
+                    <span className="text-muted-foreground">Course Progress</span>
+                    <span className="font-semibold" data-testid="text-learn-progress">
+                      {completedLessons}/{totalLessons} lessons
+                    </span>
+                  </div>
+                  <Progress value={(completedLessons / totalLessons) * 100} className="h-2" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex-1 overflow-auto bg-black flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-32 h-32 mx-auto mb-6 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full flex items-center justify-center">
+              <PlayCircle className="h-16 w-16 text-white" />
+            </div>
+            <h2 className="text-white text-2xl font-bold mb-2" data-testid="text-current-lesson-title">
+              {currentLessonData.title}
+            </h2>
+            <Badge variant="secondary" className="mb-4">
+              {currentLessonData.type === "video" ? "Video Lesson" : 
+               currentLessonData.type === "quiz" ? "Quiz" : "Assignment"}
+            </Badge>
+            <p className="text-white/70 mb-6">Duration: {currentLessonData.duration}</p>
+            {currentLessonData.completed && (
+              <Badge className="bg-green-600">
+                <CheckCircle2 className="h-3 w-3 mr-1" />
+                Completed
+              </Badge>
+            )}
+          </div>
+        </div>
+
+        <div className="border-t p-4 bg-background">
+          <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+            <Button 
+              variant="outline" 
+              onClick={handlePrevLesson}
+              disabled={currentLesson === 0}
+              data-testid="button-prev-lesson"
+            >
+              <ChevronLeft className="h-4 w-4 mr-2" />
+              Previous
+            </Button>
+
+            <div className="flex-1 text-center">
+              <p className="text-sm text-muted-foreground">
+                Lesson {currentLesson + 1} of {totalLessons}
+              </p>
+            </div>
+
+            <Button 
+              onClick={handleNextLesson}
+              disabled={currentLesson === allLessons.length - 1}
+              data-testid="button-next-lesson"
+            >
+              Next
+              <ChevronRight className="h-4 w-4 ml-2" />
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      <div className="w-96 border-l overflow-auto bg-background">
+        <div className="p-4 border-b">
+          <h3 className="font-semibold text-lg">Course Content</h3>
+        </div>
+
+        <Accordion type="single" collapsible defaultValue="module-0" className="px-4">
+          {course.modules.map((module, moduleIdx) => (
+            <AccordionItem key={moduleIdx} value={`module-${moduleIdx}`}>
+              <AccordionTrigger className="hover:no-underline">
+                <div className="flex items-center gap-2 text-left">
+                  <span className="font-semibold">{module.title}</span>
+                  <Badge variant="secondary" className="text-xs">
+                    {module.lessons.filter(l => l.completed).length}/{module.lessons.length}
+                  </Badge>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent>
+                <div className="space-y-1">
+                  {module.lessons.map((lesson, lessonIdx) => {
+                    const globalIdx = allLessons.findIndex(l => l.id === lesson.id);
+                    return (
+                      <button
+                        key={lesson.id}
+                        onClick={() => setCurrentLesson(globalIdx)}
+                        className={`w-full text-left p-3 rounded-md hover-elevate flex items-start gap-3 ${
+                          globalIdx === currentLesson ? 'bg-primary/10' : ''
+                        }`}
+                        data-testid={`button-lesson-${lesson.id}`}
+                      >
+                        <Checkbox checked={lesson.completed} className="mt-1" />
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <p className="text-sm font-medium truncate">{lesson.title}</p>
+                            {!lesson.isFree && <Lock className="h-3 w-3 text-muted-foreground" />}
+                          </div>
+                          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                            {lesson.type === "video" && <PlayCircle className="h-3 w-3" />}
+                            {lesson.type === "quiz" && <FileText className="h-3 w-3" />}
+                            {lesson.type === "assignment" && <Download className="h-3 w-3" />}
+                            <span>{lesson.duration}</span>
+                          </div>
+                        </div>
+                        {lesson.completed && (
+                          <CheckCircle2 className="h-5 w-5 text-green-600 flex-shrink-0" />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+
+        <div className="p-4 border-t mt-4">
+          <Card>
+            <CardContent className="p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <MessageSquare className="h-5 w-5 text-primary" />
+                <h4 className="font-semibold">Need Help?</h4>
+              </div>
+              <p className="text-sm text-muted-foreground mb-3">
+                Have questions about this course? Ask in the discussion forum.
+              </p>
+              <Button variant="outline" className="w-full" size="sm">
+                Go to Discussions
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+}

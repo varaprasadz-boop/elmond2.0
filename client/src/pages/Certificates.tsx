@@ -1,0 +1,94 @@
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Award, Download, Share2, Calendar } from "lucide-react";
+
+export default function Certificates() {
+  const certificates = [
+    {
+      id: 1,
+      courseTitle: "Meta Ads Mastery",
+      certificateNumber: "CERT-2025-001",
+      issuedDate: "Jan 18, 2025",
+      category: "Digital Marketing",
+    },
+    {
+      id: 2,
+      courseTitle: "Ad Copy Mastery",
+      certificateNumber: "CERT-2024-042",
+      issuedDate: "Dec 20, 2024",
+      category: "Digital Marketing",
+    },
+    {
+      id: 3,
+      courseTitle: "Digital Marketing Mastery",
+      certificateNumber: "CERT-2024-038",
+      issuedDate: "Dec 28, 2024",
+      category: "Digital Marketing",
+    },
+  ];
+
+  return (
+    <div className="min-h-screen py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-8">
+          <h1 className="font-display font-bold text-3xl md:text-4xl mb-2">My Certificates</h1>
+          <p className="text-muted-foreground">Your earned certificates and achievements</p>
+        </div>
+
+        {certificates.length === 0 ? (
+          <Card>
+            <CardContent className="p-12 text-center">
+              <Award className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
+              <h3 className="font-semibold text-xl mb-2">No certificates yet</h3>
+              <p className="text-muted-foreground mb-6">
+                Complete courses to earn certificates
+              </p>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {certificates.map((cert) => (
+              <Card key={cert.id} className="overflow-hidden" data-testid={`card-certificate-${cert.id}`}>
+                <div className="bg-gradient-to-br from-primary/10 to-accent/10 p-8 text-center border-b">
+                  <Award className="h-16 w-16 mx-auto text-primary mb-4" />
+                  <h3 className="font-display font-bold text-xl mb-2" data-testid={`text-certificate-title-${cert.id}`}>
+                    Certificate of Completion
+                  </h3>
+                  <Badge variant="secondary">{cert.category}</Badge>
+                </div>
+                <CardContent className="p-6">
+                  <h4 className="font-semibold mb-3">{cert.courseTitle}</h4>
+                  
+                  <div className="space-y-2 text-sm text-muted-foreground mb-4">
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium">Certificate ID:</span>
+                      <span className="font-mono" data-testid={`text-certificate-number-${cert.id}`}>
+                        {cert.certificateNumber}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Calendar className="h-4 w-4" />
+                      <span>Issued: {cert.issuedDate}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-2">
+                    <Button className="flex-1" size="sm" data-testid={`button-download-${cert.id}`}>
+                      <Download className="h-4 w-4 mr-2" />
+                      Download
+                    </Button>
+                    <Button variant="outline" size="sm" data-testid={`button-share-${cert.id}`}>
+                      <Share2 className="h-4 w-4 mr-2" />
+                      Share
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
