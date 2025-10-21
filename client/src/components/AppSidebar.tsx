@@ -29,6 +29,7 @@ import {
   MessageSquare
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logoImage from "@assets/logo_1761063658577.png";
 
 const menuItems = [
   {
@@ -87,14 +88,12 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarHeader className="p-4 border-b">
         <Link href="/dashboard">
-          <div className="flex items-center gap-3 hover-elevate rounded-md p-2">
-            <div className="flex items-center justify-center w-10 h-10 rounded-md bg-primary text-primary-foreground">
-              <GraduationCap className="h-6 w-6" />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-semibold text-lg">LMS Platform</span>
-              <span className="text-xs text-muted-foreground">Learning Portal</span>
-            </div>
+          <div className="flex items-center justify-center hover-elevate rounded-md p-2">
+            <img 
+              src={logoImage} 
+              alt="Elmond - The Learning Revolution" 
+              className="h-12 w-auto"
+            />
           </div>
         </Link>
       </SidebarHeader>
