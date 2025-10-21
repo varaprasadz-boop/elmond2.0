@@ -1,249 +1,172 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Clock, CheckCircle, XCircle, AlertCircle, Trophy } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
-const quizzes = [
+interface QuizResult {
+  id: number;
+  name: string;
+  courseName: string;
+  questions: number;
+  time: string;
+  mark: number;
+  totalMarks: number;
+  grade: string;
+  createdAt: string;
+}
+
+const quizResults: QuizResult[] = [
   {
     id: 1,
-    title: "Digital Marketing Fundamentals Quiz",
-    course: "Complete Digital Marketing Masterclass",
+    name: "Digital Marketing Fundamentals Quiz",
+    courseName: "Complete Digital Marketing Masterclass",
     questions: 20,
-    duration: "30 minutes",
-    passingScore: 70,
-    attempts: 2,
-    maxAttempts: 3,
-    status: "available",
-    dueDate: "2024-02-15",
+    time: "22 minutes",
+    mark: 85,
+    totalMarks: 100,
+    grade: "A",
+    createdAt: "2024-01-10",
   },
   {
     id: 2,
-    title: "Medical Coding Module 1 Assessment",
-    course: "Medical Coding Certification Prep",
-    questions: 25,
-    duration: "45 minutes",
-    passingScore: 80,
-    attempts: 0,
-    maxAttempts: 2,
-    status: "available",
-    dueDate: "2024-02-20",
+    name: "SEO Basics Assessment",
+    courseName: "Complete Digital Marketing Masterclass",
+    questions: 15,
+    time: "18 minutes",
+    mark: 78,
+    totalMarks: 100,
+    grade: "B+",
+    createdAt: "2024-01-08",
   },
-];
-
-const completedQuizzes = [
   {
     id: 3,
-    title: "SEO Basics Quiz",
-    course: "Complete Digital Marketing Masterclass",
-    score: 85,
-    passingScore: 70,
-    questions: 15,
-    completedDate: "2024-01-10",
-    status: "passed",
-    timeSpent: "22 minutes",
+    name: "ICD-10 Coding Quiz",
+    courseName: "Medical Coding Certification Prep",
+    questions: 20,
+    time: "35 minutes",
+    mark: 65,
+    totalMarks: 100,
+    grade: "C",
+    createdAt: "2024-01-05",
   },
   {
     id: 4,
-    title: "ICD-10 Coding Quiz",
-    course: "Medical Coding Certification Prep",
-    score: 65,
-    passingScore: 80,
-    questions: 20,
-    completedDate: "2024-01-08",
-    status: "failed",
-    timeSpent: "35 minutes",
+    name: "Social Media Marketing Quiz",
+    courseName: "Complete Digital Marketing Masterclass",
+    questions: 18,
+    time: "25 minutes",
+    mark: 92,
+    totalMarks: 100,
+    grade: "A+",
+    createdAt: "2024-01-03",
   },
   {
     id: 5,
-    title: "Social Media Marketing Quiz",
-    course: "Complete Digital Marketing Masterclass",
-    score: 92,
-    passingScore: 70,
-    questions: 18,
-    completedDate: "2024-01-05",
-    status: "passed",
-    timeSpent: "25 minutes",
+    name: "CPT Coding Assessment",
+    courseName: "Medical Coding Certification Prep",
+    questions: 25,
+    time: "40 minutes",
+    mark: 88,
+    totalMarks: 100,
+    grade: "A",
+    createdAt: "2023-12-28",
   },
 ];
 
 export default function Quizzes() {
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case "passed":
-        return (
-          <Badge variant="default" className="bg-green-500">
-            <CheckCircle className="h-3 w-3 mr-1" />
-            Passed
-          </Badge>
-        );
-      case "failed":
-        return (
-          <Badge variant="destructive">
-            <XCircle className="h-3 w-3 mr-1" />
-            Failed
-          </Badge>
-        );
-      default:
-        return <Badge variant="secondary">{status}</Badge>;
+  const getGradeBadge = (grade: string) => {
+    if (grade.startsWith('A')) {
+      return <Badge className="bg-green-500 hover:bg-green-600">{grade}</Badge>;
+    } else if (grade.startsWith('B')) {
+      return <Badge className="bg-blue-500 hover:bg-blue-600">{grade}</Badge>;
+    } else if (grade.startsWith('C')) {
+      return <Badge className="bg-orange-500 hover:bg-orange-600">{grade}</Badge>;
+    } else {
+      return <Badge variant="destructive">{grade}</Badge>;
     }
   };
 
   return (
     <div className="container mx-auto p-6 space-y-6">
-      <div className="flex flex-col gap-4">
-        <div>
-          <h1 className="text-3xl font-bold">Quizzes</h1>
-          <p className="text-muted-foreground">Take quizzes and track your progress</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Total Quizzes</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold">{quizzes.length + completedQuizzes.length}</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Completed</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-green-600">{completedQuizzes.filter(q => q.status === "passed").length}</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground">Average Score</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold">
-                {Math.round(completedQuizzes.reduce((acc, q) => acc + q.score, 0) / completedQuizzes.length)}%
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+      <div>
+        <h1 className="text-3xl font-bold">Quiz Result Lists</h1>
       </div>
 
-      <Tabs defaultValue="available">
-        <TabsList>
-          <TabsTrigger value="available" data-testid="tab-available">
-            Available ({quizzes.length})
-          </TabsTrigger>
-          <TabsTrigger value="completed" data-testid="tab-completed">
-            Completed ({completedQuizzes.length})
-          </TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="available" className="space-y-4 mt-6">
-          {quizzes.map((quiz) => (
-            <Card key={quiz.id} data-testid={`card-quiz-${quiz.id}`}>
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <CardTitle>{quiz.title}</CardTitle>
-                    <CardDescription>{quiz.course}</CardDescription>
-                  </div>
-                  <Badge variant="secondary">Due: {new Date(quiz.dueDate).toLocaleDateString()}</Badge>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                  <div>
-                    <span className="text-muted-foreground">Questions:</span>
-                    <div className="font-semibold">{quiz.questions}</div>
-                  </div>
-                  <div>
-                    <span className="text-muted-foreground">Duration:</span>
-                    <div className="font-semibold">{quiz.duration}</div>
-                  </div>
-                  <div>
-                    <span className="text-muted-foreground">Passing Score:</span>
-                    <div className="font-semibold">{quiz.passingScore}%</div>
-                  </div>
-                  <div>
-                    <span className="text-muted-foreground">Attempts:</span>
-                    <div className="font-semibold">{quiz.attempts}/{quiz.maxAttempts}</div>
-                  </div>
-                </div>
-                {quiz.attempts > 0 && (
-                  <div className="mt-4 p-3 bg-muted rounded-md flex items-center gap-2">
-                    <AlertCircle className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm">You have {quiz.maxAttempts - quiz.attempts} attempt(s) remaining</span>
-                  </div>
-                )}
-              </CardContent>
-              <CardFooter>
-                <Button 
-                  className="w-full" 
-                  disabled={quiz.attempts >= quiz.maxAttempts}
-                  data-testid={`button-start-quiz-${quiz.id}`}
-                >
-                  {quiz.attempts === 0 ? "Start Quiz" : "Retake Quiz"}
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
-        </TabsContent>
-
-        <TabsContent value="completed" className="space-y-4 mt-6">
-          {completedQuizzes.map((quiz) => (
-            <Card key={quiz.id} data-testid={`card-completed-quiz-${quiz.id}`}>
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <CardTitle>{quiz.title}</CardTitle>
-                    <CardDescription>{quiz.course}</CardDescription>
-                  </div>
-                  {getStatusBadge(quiz.status)}
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                    <div>
-                      <span className="text-muted-foreground">Score:</span>
-                      <div className="font-bold text-lg">{quiz.score}%</div>
-                    </div>
-                    <div>
-                      <span className="text-muted-foreground">Passing:</span>
-                      <div className="font-semibold">{quiz.passingScore}%</div>
-                    </div>
-                    <div>
-                      <span className="text-muted-foreground">Time Spent:</span>
-                      <div className="font-semibold">{quiz.timeSpent}</div>
-                    </div>
-                    <div>
-                      <span className="text-muted-foreground">Completed:</span>
-                      <div className="font-semibold">{new Date(quiz.completedDate).toLocaleDateString()}</div>
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between text-sm">
-                      <span>Score Progress</span>
-                      <span className="font-semibold">{quiz.score}/{quiz.passingScore}%</span>
-                    </div>
-                    <Progress value={(quiz.score / quiz.passingScore) * 100} />
-                  </div>
-                </div>
-              </CardContent>
-              <CardFooter className="gap-2">
-                <Button variant="outline" data-testid={`button-view-results-${quiz.id}`}>
-                  View Results
-                </Button>
-                {quiz.status === "failed" && (
-                  <Button data-testid={`button-retake-${quiz.id}`}>
-                    Retake Quiz
-                  </Button>
-                )}
-              </CardFooter>
-            </Card>
-          ))}
-        </TabsContent>
-      </Tabs>
+      <Card>
+        <CardHeader>
+          <CardTitle>Quiz Results</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {quizResults.length > 0 ? (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-16">SI</TableHead>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Course Name</TableHead>
+                  <TableHead className="w-28">Questions</TableHead>
+                  <TableHead className="w-32">Time</TableHead>
+                  <TableHead className="w-24">Mark</TableHead>
+                  <TableHead className="w-24">Grade</TableHead>
+                  <TableHead className="w-32">Created At</TableHead>
+                  <TableHead className="w-32 text-right">Action</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {quizResults.map((quiz, index) => (
+                  <TableRow key={quiz.id} data-testid={`row-quiz-${quiz.id}`}>
+                    <TableCell className="font-medium" data-testid={`cell-sl-${quiz.id}`}>
+                      {index + 1}
+                    </TableCell>
+                    <TableCell className="font-medium" data-testid={`cell-name-${quiz.id}`}>
+                      {quiz.name}
+                    </TableCell>
+                    <TableCell className="text-muted-foreground" data-testid={`cell-course-${quiz.id}`}>
+                      {quiz.courseName}
+                    </TableCell>
+                    <TableCell data-testid={`cell-questions-${quiz.id}`}>
+                      {quiz.questions}
+                    </TableCell>
+                    <TableCell data-testid={`cell-time-${quiz.id}`}>
+                      {quiz.time}
+                    </TableCell>
+                    <TableCell data-testid={`cell-mark-${quiz.id}`}>
+                      <span className="font-semibold">{quiz.mark}</span>
+                      <span className="text-muted-foreground">/{quiz.totalMarks}</span>
+                    </TableCell>
+                    <TableCell data-testid={`cell-grade-${quiz.id}`}>
+                      {getGradeBadge(quiz.grade)}
+                    </TableCell>
+                    <TableCell className="text-muted-foreground" data-testid={`cell-created-${quiz.id}`}>
+                      {new Date(quiz.createdAt).toLocaleDateString()}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        data-testid={`button-view-quiz-${quiz.id}`}
+                      >
+                        View Details
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          ) : (
+            <div className="text-center py-12 text-muted-foreground">
+              No data
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }
