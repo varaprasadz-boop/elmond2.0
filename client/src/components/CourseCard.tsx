@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Clock, Users, Star } from "lucide-react";
+import { useCart } from "@/contexts/CartContext";
+import { useToast } from "@/hooks/use-toast";
 
 interface CourseCardProps {
   id: number;
@@ -29,6 +31,26 @@ export default function CourseCard({
   originalPrice,
   discount,
 }: CourseCardProps) {
+  const { addToCart, items } = useCart();
+  const { toast } = useToast();
+  
+  const isInCart = items.some(item => item.id === id);
+
+  const handleAddToCart = () => {
+    if (isInCart) {
+      toast({
+        title: "Already in cart",
+        description: "This course is already in your cart",
+      });
+      return;
+    }
+    
+    addToCart({ id, title, category, price, originalPrice, discount, image });
+    toast({
+      title: "Added to cart",
+      description: `${title} has been added to your cart`,
+    });
+  };
   return (
     <Card className="overflow-hidden hover-elevate transition-all duration-200 group h-full flex flex-col" data-testid={`card-course-${id}`}>
       <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10">
@@ -85,8 +107,13 @@ export default function CourseCard({
             )}
           </div>
         </div>
-        <Button variant="outline" data-testid={`button-add-cart-${id}`}>
-          Add to Cart
+        <Button 
+          variant="outline" 
+          onClick={handleAddToCart}
+          disabled={isInCart}
+          data-testid={`button-add-cart-${id}`}
+        >
+          {isInCart ? "In Cart" : "Add to Cart"}
         </Button>
       </CardFooter>
     </Card>

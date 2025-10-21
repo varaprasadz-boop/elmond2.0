@@ -11,14 +11,18 @@ import {
 } from "@/components/ui/accordion";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Clock, Users, Star, BookOpen, FileText, Award, Calendar, ChevronRight, Lock } from "lucide-react";
+import { useCart } from "@/contexts/CartContext";
+import { useToast } from "@/hooks/use-toast";
 
 export default function CourseDetail() {
   const [, params] = useRoute("/course/:id");
   const courseId = params?.id;
+  const { addToCart, items } = useCart();
+  const { toast } = useToast();
 
   //todo: remove mock functionality - mock course detail data
   const course = {
-    id: 4,
+    id: parseInt(courseId || "4"),
     title: "Basics of Digital Marketing",
     category: "Digital Marketing",
     rating: 4.5,
@@ -63,6 +67,31 @@ export default function CourseDetail() {
         ]
       }
     ]
+  };
+
+  const isInCart = items.some(item => item.id === course.id);
+
+  const handleAddToCart = () => {
+    if (isInCart) {
+      toast({
+        title: "Already in cart",
+        description: "This course is already in your cart",
+      });
+      return;
+    }
+    
+    addToCart({
+      id: course.id,
+      title: course.title,
+      category: course.category,
+      price: course.price,
+      originalPrice: course.originalPrice,
+      discount: course.discount,
+    });
+    toast({
+      title: "Added to cart",
+      description: `${course.title} has been added to your cart`,
+    });
   };
 
   return (
@@ -316,8 +345,15 @@ export default function CourseDetail() {
                       Buy Now
                     </Button>
                   </Link>
-                  <Button className="w-full" size="lg" variant="outline" data-testid="button-add-cart-sidebar">
-                    Add to Cart
+                  <Button 
+                    className="w-full" 
+                    size="lg" 
+                    variant="outline"
+                    onClick={handleAddToCart}
+                    disabled={isInCart}
+                    data-testid="button-add-cart-sidebar"
+                  >
+                    {isInCart ? "In Cart" : "Add to Cart"}
                   </Button>
                 </div>
               </CardContent>

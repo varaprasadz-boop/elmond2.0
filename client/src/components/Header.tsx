@@ -1,7 +1,9 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Menu, X, ChevronDown, ShoppingCart } from "lucide-react";
 import { useState } from "react";
+import { useCart } from "@/contexts/CartContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,6 +13,7 @@ import {
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { itemCount } = useCart();
 
   const categories = [
     "Digital Marketing",
@@ -76,6 +79,20 @@ export default function Header() {
           </nav>
 
           <div className="hidden md:flex items-center gap-2">
+            <Link href="/cart" data-testid="link-cart">
+              <Button variant="ghost" size="icon" className="relative">
+                <ShoppingCart className="h-5 w-5" />
+                {itemCount > 0 && (
+                  <Badge 
+                    variant="destructive" 
+                    className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs"
+                    data-testid="badge-cart-count"
+                  >
+                    {itemCount}
+                  </Badge>
+                )}
+              </Button>
+            </Link>
             <Link href="/login" data-testid="link-login">
               <Button variant="ghost">Login</Button>
             </Link>
