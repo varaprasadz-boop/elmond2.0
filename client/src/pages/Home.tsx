@@ -205,8 +205,8 @@ export default function Home() {
             {mockCourses.slice(0, 4).map((course) => (
               <div key={course.id} className="relative">
                 <CourseCard {...course} />
-                <div className="absolute top-32 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-                  <div className="bg-primary text-primary-foreground px-4 py-2 rounded-lg font-semibold text-sm whitespace-nowrap">
+                <div className="absolute top-24 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none">
+                  <div className="bg-primary text-primary-foreground px-6 py-2 rounded-lg font-semibold text-sm whitespace-nowrap shadow-lg">
                     Coming Soon
                   </div>
                 </div>
