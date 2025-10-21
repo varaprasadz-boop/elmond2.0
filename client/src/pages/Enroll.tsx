@@ -1,4 +1,4 @@
-import { useRoute, useLocation } from "wouter";
+import { useRoute, useLocation, Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -7,11 +7,27 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { CreditCard, Smartphone, Clock, BookOpen, Award } from "lucide-react";
+import { getCourseBySlug } from "@/data/mockData";
 
 export default function Enroll() {
-  const [, params] = useRoute("/enroll/:id");
+  const [, params] = useRoute("/enroll/:slug");
   const [, navigate] = useLocation();
-  const courseId = params?.id;
+  const courseSlug = params?.slug;
+  const foundCourse = getCourseBySlug(courseSlug || "");
+  
+  if (!foundCourse) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold mb-4">Course Not Found</h1>
+          <p className="text-muted-foreground mb-4">The course you're trying to enroll in doesn't exist.</p>
+          <Link href="/course">
+            <Button>Browse Courses</Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
   
   const [paymentMethod, setPaymentMethod] = useState("card");
   const [formData, setFormData] = useState({
@@ -24,13 +40,14 @@ export default function Enroll() {
   });
 
   const course = {
-    id: courseId,
-    title: "Basics of Digital Marketing",
-    category: "Digital Marketing",
-    price: 899.10,
-    originalPrice: 999.00,
-    discount: 10,
-    duration: "1 month",
+    id: foundCourse.id,
+    slug: foundCourse.slug,
+    title: foundCourse.title,
+    category: foundCourse.category,
+    price: foundCourse.price,
+    originalPrice: foundCourse.originalPrice,
+    discount: foundCourse.discount,
+    duration: foundCourse.duration,
     lessons: 4,
   };
 

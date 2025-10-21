@@ -44,23 +44,23 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/course" component={Courses} />
-      <Route path="/course/:id" component={CourseDetail} />
+      <Route path="/course/:slug" component={CourseDetail} />
       <Route path="/categories" component={Categories} />
       <Route path="/blog" component={Blog} />
-      <Route path="/blog/:id" component={BlogDetail} />
+      <Route path="/blog/:slug" component={BlogDetail} />
       <Route path="/contact" component={Contact} />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
       <Route path="/cart" component={Cart} />
       <Route path="/checkout" component={Checkout} />
-      <Route path="/enroll/:id" component={Enroll} />
+      <Route path="/enroll/:slug" component={Enroll} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/all-courses" component={AllCourses} />
       <Route path="/enroll-courses" component={EnrollCourses} />
       <Route path="/quizzes" component={Quizzes} />
       <Route path="/payments" component={Payments} />
       <Route path="/my-courses" component={MyCourses} />
-      <Route path="/learn/:id" component={Learn} />
+      <Route path="/learn/:slug" component={Learn} />
       <Route path="/profile" component={UserProfile} />
       <Route path="/certificates" component={Certificates} />
       <Route path="/my-purchases" component={MyPurchases} />

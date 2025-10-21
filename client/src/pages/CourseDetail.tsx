@@ -13,57 +13,73 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Clock, Users, Star, BookOpen, FileText, Award, Calendar, ChevronRight, Lock } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { useToast } from "@/hooks/use-toast";
+import { getCourseBySlug } from "@/data/mockData";
 
 export default function CourseDetail() {
-  const [, params] = useRoute("/course/:id");
-  const courseId = params?.id;
+  const [, params] = useRoute("/course/:slug");
+  const courseSlug = params?.slug;
   const { addToCart, items } = useCart();
   const { toast } = useToast();
+  const foundCourse = getCourseBySlug(courseSlug || "");
+  
+  if (!foundCourse) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold mb-4">Course Not Found</h1>
+          <p className="text-muted-foreground mb-4">The course you're looking for doesn't exist.</p>
+          <Link href="/course">
+            <Button>Browse All Courses</Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
-  //todo: remove mock functionality - mock course detail data
   const course = {
-    id: parseInt(courseId || "4"),
-    title: "Basics of Digital Marketing",
-    category: "Digital Marketing",
-    rating: 4.5,
-    students: 4,
-    duration: "1 month",
+    id: foundCourse.id,
+    slug: foundCourse.slug,
+    title: foundCourse.title,
+    category: foundCourse.category,
+    rating: foundCourse.rating,
+    students: foundCourse.students,
+    duration: foundCourse.duration,
     lessons: 4,
-    price: 899.10,
-    originalPrice: 999.00,
-    discount: 10,
-    description: "This beginner-friendly course introduces you to the core concepts of digital marketing. You'll explore how businesses use SEO, social media, and other channels to connect with their audience. Perfect for students and professionals looking to start a career in marketing.",
+    price: foundCourse.price,
+    originalPrice: foundCourse.originalPrice,
+    discount: foundCourse.discount,
+    description: foundCourse.description || "This course provides comprehensive training in the subject matter.",
     highlights: [
-      "SEO basics and keyword research",
-      "Social media marketing strategies",
-      "Email and content marketing fundamentals"
+      "Master core concepts and fundamentals",
+      "Learn from industry experts",
+      "Get hands-on practical experience"
     ],
     includes: [
-      "Learn the fundamentals of digital marketing including SEO, social media, and paid ads.",
-      "Understand how businesses attract and retain customers online.",
-      "Build a strong foundation to kickstart your marketing career."
+      "Comprehensive course materials and resources",
+      "Access to expert instructors and community",
+      "Certificate of completion upon finishing the course"
     ],
     stats: {
-      duration: "1 Hours 30 mins",
+      duration: foundCourse.duration,
       modules: "4 Modules",
       tests: "1 Practice Tests",
       assignments: "2 Assignments",
-      learners: "4 Learners",
+      learners: `${foundCourse.students} Learners`,
       access: "6 Months Access"
     },
     modules: [
       {
-        title: "Module 1: Introduction to SEO",
+        title: "Module 1: Introduction",
         lessons: [
-          { title: "Lesson 1: What is SEO?", description: "Introduction to search engines and why SEO matters.", isFree: true },
-          { title: "Lesson 2: Keyword Research Basics", description: "How to find and target the right keywords.", isFree: false }
+          { title: "Lesson 1: Getting Started", description: "Introduction to the course and key concepts.", isFree: true },
+          { title: "Lesson 2: Core Fundamentals", description: "Understanding the basic principles.", isFree: false }
         ]
       },
       {
-        title: "Module 2: Social Media Marketing Basics",
+        title: "Module 2: Advanced Topics",
         lessons: [
-          { title: "Lesson 1: Social Media Platforms Overview", description: "Learn about Facebook, Instagram, LinkedIn marketing.", isFree: true },
-          { title: "Lesson 2: Content Planning", description: "Strategies for creating engaging social media posts.", isFree: false }
+          { title: "Lesson 1: In-Depth Analysis", description: "Deep dive into advanced concepts.", isFree: false },
+          { title: "Lesson 2: Practical Application", description: "Apply what you've learned with real examples.", isFree: false }
         ]
       }
     ]
@@ -340,7 +356,7 @@ export default function CourseDetail() {
                 </div>
 
                 <div className="space-y-2 mb-6">
-                  <Link href={`/enroll/${courseId}`} data-testid="button-buy-now">
+                  <Link href={`/enroll/${course.slug}`} data-testid="button-buy-now">
                     <Button className="w-full" size="lg">
                       Buy Now
                     </Button>

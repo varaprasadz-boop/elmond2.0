@@ -1,4 +1,4 @@
-import { useRoute } from "wouter";
+import { useRoute, Link } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -21,16 +21,33 @@ import {
   MessageSquare,
 } from "lucide-react";
 import { useState } from "react";
+import { getCourseBySlug } from "@/data/mockData";
 
 export default function Learn() {
-  const [, params] = useRoute("/learn/:id");
-  const courseId = params?.id;
+  const [, params] = useRoute("/learn/:slug");
+  const courseSlug = params?.slug;
+  const foundCourse = getCourseBySlug(courseSlug || "");
   const [currentLesson, setCurrentLesson] = useState(0);
+  
+  if (!foundCourse) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold mb-4">Course Not Found</h1>
+          <p className="text-muted-foreground mb-4">The learning content you're looking for doesn't exist.</p>
+          <Link href="/my-courses">
+            <Button>View My Courses</Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   const course = {
-    id: courseId,
-    title: "Basics of Digital Marketing",
-    category: "Digital Marketing",
+    id: foundCourse.id,
+    slug: foundCourse.slug,
+    title: foundCourse.title,
+    category: foundCourse.category,
     progress: 75,
     modules: [
       {

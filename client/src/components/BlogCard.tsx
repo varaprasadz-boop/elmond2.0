@@ -4,14 +4,15 @@ import { Calendar } from "lucide-react";
 
 interface BlogCardProps {
   id: number;
+  slug: string;
   title: string;
   date: string;
   image?: string;
 }
 
-export default function BlogCard({ id, title, date, image }: BlogCardProps) {
+export default function BlogCard({ id, slug, title, date, image }: BlogCardProps) {
   return (
-    <Link href={`/blog/${id}`} data-testid={`link-blog-${id}`}>
+    <Link href={`/blog/${slug}`} data-testid={`link-blog-${id}`}>
       <Card className="overflow-hidden hover-elevate active-elevate-2 transition-all duration-200 cursor-pointer h-full" data-testid={`card-blog-${id}`}>
         <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10">
           {image ? (

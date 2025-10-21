@@ -2,15 +2,33 @@ import { useRoute, Link } from "wouter";
 import { Calendar, ChevronRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
-export default function BlogDetail() {
-  const [, params] = useRoute("/blog/:id");
-  const blogId = params?.id;
+import { getBlogBySlug } from "@/data/mockData";
+import { Button } from "@/components/ui/button";
 
-  //todo: remove mock functionality - mock blog detail data
+export default function BlogDetail() {
+  const [, params] = useRoute("/blog/:slug");
+  const blogSlug = params?.slug;
+  const foundBlog = getBlogBySlug(blogSlug || "");
+  
+  if (!foundBlog) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold mb-4">Blog Post Not Found</h1>
+          <p className="text-muted-foreground mb-4">The blog post you're looking for doesn't exist.</p>
+          <Link href="/blog">
+            <Button>Browse All Posts</Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   const blog = {
-    id: blogId,
-    title: "Photoshop Create Path From Image",
-    date: "Tue, Feb 27, 2024",
+    id: foundBlog.id,
+    slug: foundBlog.slug,
+    title: foundBlog.title,
+    date: foundBlog.date,
     content: `
       <p>This is a comprehensive guide on how to create paths from images in Photoshop. 
       Paths are one of the most powerful features in Photoshop, allowing you to create 

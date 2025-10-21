@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 
 interface CourseCardProps {
   id: number;
+  slug: string;
   title: string;
   category: string;
   image?: string;
@@ -21,6 +22,7 @@ interface CourseCardProps {
 
 export default function CourseCard({
   id,
+  slug,
   title,
   category,
   image,
@@ -72,7 +74,7 @@ export default function CourseCard({
       </div>
       
       <CardContent className="p-4 flex-1 flex flex-col gap-3">
-        <Link href={`/course/${id}`} data-testid={`link-course-${id}`}>
+        <Link href={`/course/${slug}`} data-testid={`link-course-${id}`}>
           <h3 className="font-semibold text-lg line-clamp-2 hover:text-primary transition-colors">
             {title}
           </h3>
