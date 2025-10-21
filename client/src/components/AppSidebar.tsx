@@ -20,7 +20,13 @@ import {
   CreditCard, 
   User, 
   LogOut,
-  GraduationCap
+  GraduationCap,
+  Library,
+  UserPlus,
+  HelpCircle,
+  Wallet,
+  Receipt,
+  MessageSquare
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -31,24 +37,39 @@ const menuItems = [
     icon: LayoutDashboard,
   },
   {
-    title: "My Courses",
-    url: "/my-courses",
-    icon: BookOpen,
+    title: "All Courses",
+    url: "/all-courses",
+    icon: Library,
   },
   {
-    title: "Certificates",
-    url: "/certificates",
-    icon: Award,
+    title: "Enroll Courses",
+    url: "/enroll-courses",
+    icon: UserPlus,
   },
   {
-    title: "My Purchases",
-    url: "/my-purchases",
-    icon: CreditCard,
+    title: "Quizzes",
+    url: "/quizzes",
+    icon: HelpCircle,
   },
   {
-    title: "Profile Settings",
+    title: "Payments",
+    url: "/payments",
+    icon: Wallet,
+  },
+  {
+    title: "Account",
     url: "/profile",
     icon: User,
+  },
+  {
+    title: "Transactions",
+    url: "/transactions",
+    icon: Receipt,
+  },
+  {
+    title: "Support Ticket",
+    url: "/support-ticket",
+    icon: MessageSquare,
   },
 ];
 

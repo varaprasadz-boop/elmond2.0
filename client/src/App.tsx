@@ -29,6 +29,12 @@ import Learn from "@/pages/Learn";
 import UserProfile from "@/pages/UserProfile";
 import Certificates from "@/pages/Certificates";
 import MyPurchases from "@/pages/MyPurchases";
+import AllCourses from "@/pages/AllCourses";
+import EnrollCourses from "@/pages/EnrollCourses";
+import Quizzes from "@/pages/Quizzes";
+import Payments from "@/pages/Payments";
+import Transactions from "@/pages/Transactions";
+import SupportTicket from "@/pages/SupportTicket";
 import PolicyPage from "@/pages/PolicyPage";
 import NotFound from "@/pages/not-found";
 
@@ -48,11 +54,17 @@ function Router() {
       <Route path="/checkout" component={Checkout} />
       <Route path="/enroll/:id" component={Enroll} />
       <Route path="/dashboard" component={Dashboard} />
+      <Route path="/all-courses" component={AllCourses} />
+      <Route path="/enroll-courses" component={EnrollCourses} />
+      <Route path="/quizzes" component={Quizzes} />
+      <Route path="/payments" component={Payments} />
       <Route path="/my-courses" component={MyCourses} />
       <Route path="/learn/:id" component={Learn} />
       <Route path="/profile" component={UserProfile} />
       <Route path="/certificates" component={Certificates} />
       <Route path="/my-purchases" component={MyPurchases} />
+      <Route path="/transactions" component={Transactions} />
+      <Route path="/support-ticket" component={SupportTicket} />
       <Route path="/privacy-policy" component={PolicyPage} />
       <Route path="/terms-of-service" component={PolicyPage} />
       <Route path="/cookie-policy" component={PolicyPage} />
@@ -69,11 +81,17 @@ function AppContent() {
   const isAuthenticatedRoute = (path: string): boolean => {
     const authenticatedRoutePatterns = [
       /^\/dashboard$/,
+      /^\/all-courses$/,
+      /^\/enroll-courses$/,
+      /^\/quizzes$/,
+      /^\/payments$/,
       /^\/my-courses$/,
       /^\/learn(\/[^/]+)?$/,
       /^\/profile$/,
       /^\/certificates$/,
       /^\/my-purchases$/,
+      /^\/transactions$/,
+      /^\/support-ticket$/,
     ];
     
     return authenticatedRoutePatterns.some(pattern => pattern.test(path));
