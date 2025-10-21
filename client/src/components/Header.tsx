@@ -14,6 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
+import logoImage from "@assets/logo_1761063658577.png";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -35,11 +36,12 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" data-testid="link-home">
-            <div className="flex items-center gap-2 hover-elevate active-elevate-2 rounded-md px-3 py-2 -ml-3">
-              <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
-                <span className="text-primary-foreground font-display font-bold text-lg">E</span>
-              </div>
-              <span className="font-display font-bold text-xl text-foreground">Elmond</span>
+            <div className="flex items-center hover-elevate active-elevate-2 rounded-md px-3 py-2 -ml-3">
+              <img 
+                src={logoImage} 
+                alt="Elmond - The Learning Revolution" 
+                className="h-10"
+              />
             </div>
           </Link>
 
