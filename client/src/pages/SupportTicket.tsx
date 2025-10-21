@@ -4,7 +4,6 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
   SelectContent,
@@ -12,42 +11,57 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { MessageSquare, Clock, CheckCircle, XCircle, Plus } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Plus } from "lucide-react";
 import { useState } from "react";
 
 const tickets = [
   {
-    id: "TICKET-001",
+    id: 1,
+    ticketNumber: "605129",
+    subject: "test test",
+    status: "answered",
+    priority: "high",
+    lastReply: "3 weeks ago",
+  },
+  {
+    id: 2,
+    ticketNumber: "605098",
     subject: "Unable to access course videos",
-    category: "Technical",
     status: "open",
     priority: "high",
-    createdDate: "2024-01-15T10:30:00",
-    lastUpdated: "2024-01-16T14:20:00",
-    course: "Complete Digital Marketing Masterclass",
-    responses: 3,
+    lastReply: "2 days ago",
   },
   {
-    id: "TICKET-002",
-    subject: "Certificate not generated",
-    category: "Certificate",
+    id: 3,
+    ticketNumber: "604876",
+    subject: "Certificate not generated after course completion",
     status: "in-progress",
     priority: "medium",
-    createdDate: "2024-01-10T09:15:00",
-    lastUpdated: "2024-01-12T16:45:00",
-    course: "Medical Coding Certification Prep",
-    responses: 5,
+    lastReply: "1 week ago",
   },
   {
-    id: "TICKET-003",
+    id: 4,
+    ticketNumber: "604523",
     subject: "Refund request for cancelled course",
-    category: "Billing",
-    status: "resolved",
+    status: "closed",
     priority: "low",
-    createdDate: "2024-01-05T14:30:00",
-    lastUpdated: "2024-01-08T11:20:00",
-    course: "Web Development Bootcamp",
-    responses: 8,
+    lastReply: "2 weeks ago",
+  },
+  {
+    id: 5,
+    ticketNumber: "604301",
+    subject: "Payment not processed correctly",
+    status: "answered",
+    priority: "high",
+    lastReply: "4 days ago",
   },
 ];
 
@@ -57,43 +71,28 @@ export default function SupportTicket() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "open":
-        return <Badge variant="default">Open</Badge>;
+        return <Badge variant="secondary" className="bg-blue-100 text-blue-700 hover:bg-blue-100">Open</Badge>;
+      case "answered":
+        return <Badge variant="secondary" className="bg-blue-100 text-blue-700 hover:bg-blue-100">Answered</Badge>;
       case "in-progress":
-        return <Badge variant="secondary">In Progress</Badge>;
-      case "resolved":
-        return <Badge variant="default" className="bg-green-500">Resolved</Badge>;
+        return <Badge variant="secondary" className="bg-yellow-100 text-yellow-700 hover:bg-yellow-100">In Progress</Badge>;
       case "closed":
-        return <Badge variant="outline">Closed</Badge>;
+        return <Badge variant="secondary" className="bg-gray-100 text-gray-700 hover:bg-gray-100">Closed</Badge>;
       default:
-        return <Badge>{status}</Badge>;
+        return <Badge variant="secondary">{status}</Badge>;
     }
   };
 
   const getPriorityBadge = (priority: string) => {
     switch (priority) {
       case "high":
-        return <Badge variant="destructive">High</Badge>;
+        return <Badge variant="secondary" className="bg-purple-100 text-purple-700 hover:bg-purple-100">High</Badge>;
       case "medium":
-        return <Badge variant="secondary">Medium</Badge>;
+        return <Badge variant="secondary" className="bg-orange-100 text-orange-700 hover:bg-orange-100">Medium</Badge>;
       case "low":
-        return <Badge variant="outline">Low</Badge>;
+        return <Badge variant="secondary" className="bg-green-100 text-green-700 hover:bg-green-100">Low</Badge>;
       default:
-        return <Badge>{priority}</Badge>;
-    }
-  };
-
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case "open":
-        return <MessageSquare className="h-5 w-5 text-primary" />;
-      case "in-progress":
-        return <Clock className="h-5 w-5 text-secondary" />;
-      case "resolved":
-        return <CheckCircle className="h-5 w-5 text-green-500" />;
-      case "closed":
-        return <XCircle className="h-5 w-5 text-muted-foreground" />;
-      default:
-        return <MessageSquare className="h-5 w-5" />;
+        return <Badge variant="secondary">{priority}</Badge>;
     }
   };
 
@@ -102,7 +101,6 @@ export default function SupportTicket() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Support Tickets</h1>
-          <p className="text-muted-foreground">Get help with your courses and account</p>
         </div>
         <Button onClick={() => setShowCreateTicket(!showCreateTicket)} data-testid="button-create-ticket">
           <Plus className="h-4 w-4 mr-2" />
@@ -187,134 +185,55 @@ export default function SupportTicket() {
         </Card>
       )}
 
-      <Tabs defaultValue="all">
-        <TabsList>
-          <TabsTrigger value="all" data-testid="tab-all-tickets">
-            All Tickets ({tickets.length})
-          </TabsTrigger>
-          <TabsTrigger value="open" data-testid="tab-open-tickets">
-            Open ({tickets.filter(t => t.status === "open").length})
-          </TabsTrigger>
-          <TabsTrigger value="resolved" data-testid="tab-resolved-tickets">
-            Resolved ({tickets.filter(t => t.status === "resolved").length})
-          </TabsTrigger>
-        </TabsList>
+      <Card>
+        <CardHeader>
+          <CardTitle>Your Tickets</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-16">SL</TableHead>
+                <TableHead>Subject</TableHead>
+                <TableHead className="w-32">Status</TableHead>
+                <TableHead className="w-32">Priority</TableHead>
+                <TableHead className="w-40">Last Reply</TableHead>
+                <TableHead className="w-32 text-right">Action</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {tickets.map((ticket, index) => (
+                <TableRow key={ticket.id} data-testid={`row-ticket-${ticket.id}`}>
+                  <TableCell className="font-medium">{index + 1}</TableCell>
+                  <TableCell>
+                    <div className="font-medium">
+                      [Ticket#{ticket.ticketNumber}] {ticket.subject}
+                    </div>
+                  </TableCell>
+                  <TableCell>{getStatusBadge(ticket.status)}</TableCell>
+                  <TableCell>{getPriorityBadge(ticket.priority)}</TableCell>
+                  <TableCell className="text-muted-foreground">{ticket.lastReply}</TableCell>
+                  <TableCell className="text-right">
+                    <Button 
+                      size="sm" 
+                      className="bg-teal-500 hover:bg-teal-600 text-white"
+                      data-testid={`button-view-ticket-${ticket.id}`}
+                    >
+                      View
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
 
-        <TabsContent value="all" className="space-y-4 mt-6">
-          {tickets.map((ticket) => (
-            <Card key={ticket.id} data-testid={`card-ticket-${ticket.id}`}>
-              <CardHeader>
-                <div className="flex items-start gap-4">
-                  <div className="p-2 rounded-full bg-muted">
-                    {getStatusIcon(ticket.status)}
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <CardTitle className="text-lg">{ticket.subject}</CardTitle>
-                        <CardDescription className="mt-1">
-                          {ticket.id} • {ticket.course}
-                        </CardDescription>
-                      </div>
-                      <div className="flex gap-2">
-                        {getStatusBadge(ticket.status)}
-                        {getPriorityBadge(ticket.priority)}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4 mt-3 text-sm text-muted-foreground">
-                      <span>Created: {new Date(ticket.createdDate).toLocaleDateString()}</span>
-                      <span>•</span>
-                      <span>Updated: {new Date(ticket.lastUpdated).toLocaleDateString()}</span>
-                      <span>•</span>
-                      <span>{ticket.responses} responses</span>
-                    </div>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardFooter>
-                <Button variant="outline" data-testid={`button-view-ticket-${ticket.id}`}>
-                  View Details
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
-        </TabsContent>
-
-        <TabsContent value="open" className="space-y-4 mt-6">
-          {tickets
-            .filter((ticket) => ticket.status === "open" || ticket.status === "in-progress")
-            .map((ticket) => (
-              <Card key={ticket.id} data-testid={`card-open-ticket-${ticket.id}`}>
-                <CardHeader>
-                  <div className="flex items-start gap-4">
-                    <div className="p-2 rounded-full bg-muted">
-                      {getStatusIcon(ticket.status)}
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <CardTitle className="text-lg">{ticket.subject}</CardTitle>
-                          <CardDescription className="mt-1">
-                            {ticket.id} • {ticket.course}
-                          </CardDescription>
-                        </div>
-                        <div className="flex gap-2">
-                          {getStatusBadge(ticket.status)}
-                          {getPriorityBadge(ticket.priority)}
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-4 mt-3 text-sm text-muted-foreground">
-                        <span>Created: {new Date(ticket.createdDate).toLocaleDateString()}</span>
-                        <span>•</span>
-                        <span>{ticket.responses} responses</span>
-                      </div>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardFooter>
-                  <Button variant="outline" data-testid={`button-view-open-ticket-${ticket.id}`}>
-                    View Details
-                  </Button>
-                </CardFooter>
-              </Card>
-            ))}
-        </TabsContent>
-
-        <TabsContent value="resolved" className="space-y-4 mt-6">
-          {tickets
-            .filter((ticket) => ticket.status === "resolved" || ticket.status === "closed")
-            .map((ticket) => (
-              <Card key={ticket.id} data-testid={`card-resolved-ticket-${ticket.id}`}>
-                <CardHeader>
-                  <div className="flex items-start gap-4">
-                    <div className="p-2 rounded-full bg-muted">
-                      {getStatusIcon(ticket.status)}
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <CardTitle className="text-lg">{ticket.subject}</CardTitle>
-                          <CardDescription className="mt-1">
-                            {ticket.id} • {ticket.course}
-                          </CardDescription>
-                        </div>
-                        {getStatusBadge(ticket.status)}
-                      </div>
-                      <div className="flex items-center gap-4 mt-3 text-sm text-muted-foreground">
-                        <span>Resolved: {new Date(ticket.lastUpdated).toLocaleDateString()}</span>
-                      </div>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardFooter>
-                  <Button variant="outline" data-testid={`button-view-resolved-ticket-${ticket.id}`}>
-                    View Details
-                  </Button>
-                </CardFooter>
-              </Card>
-            ))}
-        </TabsContent>
-      </Tabs>
+      {tickets.length === 0 && (
+        <div className="text-center py-12">
+          <p className="text-muted-foreground">No support tickets found.</p>
+        </div>
+      )}
     </div>
   );
 }
