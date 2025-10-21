@@ -2,6 +2,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Award, Download, Share2, Calendar } from "lucide-react";
+import certificatePreview from "@assets/generated_images/Professional_certificate_design_with_logo_8e53e36b.png";
+import elmondLogo from "@assets/logo_1761063658577.png";
 
 export default function Certificates() {
   const certificates = [
@@ -50,12 +52,22 @@ export default function Certificates() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {certificates.map((cert) => (
               <Card key={cert.id} className="overflow-hidden" data-testid={`card-certificate-${cert.id}`}>
-                <div className="bg-gradient-to-br from-primary/10 to-accent/10 p-8 text-center border-b">
-                  <Award className="h-16 w-16 mx-auto text-primary mb-4" />
-                  <h3 className="font-display font-bold text-xl mb-2" data-testid={`text-certificate-title-${cert.id}`}>
-                    Certificate of Completion
-                  </h3>
-                  <Badge variant="secondary">{cert.category}</Badge>
+                <div className="relative aspect-[4/3] bg-gradient-to-br from-teal-50 to-blue-50 dark:from-teal-950/20 dark:to-blue-950/20">
+                  <img 
+                    src={certificatePreview}
+                    alt="Certificate Preview"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/50 to-transparent" />
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <img src={elmondLogo} alt="Elmond" className="h-6" />
+                      <Badge variant="secondary" className="text-xs">{cert.category}</Badge>
+                    </div>
+                    <h3 className="font-display font-bold text-lg" data-testid={`text-certificate-title-${cert.id}`}>
+                      Certificate of Completion
+                    </h3>
+                  </div>
                 </div>
                 <CardContent className="p-6">
                   <h4 className="font-semibold mb-3">{cert.courseTitle}</h4>
