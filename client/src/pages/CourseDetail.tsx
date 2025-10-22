@@ -14,6 +14,7 @@ import { Clock, Users, Star, BookOpen, FileText, Award, Calendar, ChevronRight, 
 import { useCart } from "@/contexts/CartContext";
 import { useToast } from "@/hooks/use-toast";
 import { getCourseBySlug } from "@/data/mockData";
+import certificateImage from "@assets/generated_images/Professional_certificate_design_with_logo_8e53e36b.png";
 
 export default function CourseDetail() {
   const [, params] = useRoute("/course/:slug");
@@ -332,8 +333,12 @@ export default function CourseDetail() {
                       Showcase your verified certificate on your social media platforms and CV
                     </p>
                   </div>
-                  <div className="bg-gradient-to-br from-primary/10 to-accent/10 rounded-lg p-8 flex items-center justify-center">
-                    <Award className="h-24 w-24 text-primary" />
+                  <div className="rounded-lg overflow-hidden border shadow-sm" data-testid="certificate-preview">
+                    <img 
+                      src={certificateImage} 
+                      alt="Certificate of Completion Preview" 
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 </div>
               </CardContent>
