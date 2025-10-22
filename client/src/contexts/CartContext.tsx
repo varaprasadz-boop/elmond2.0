@@ -8,6 +8,9 @@ interface CartItem {
   originalPrice: number;
   discount: number;
   image?: string;
+  isBundle?: boolean;
+  bundleSlug?: string;
+  includedCourses?: string[];
 }
 
 interface Coupon {

@@ -15,17 +15,17 @@ export default function BundledCourses() {
     const bundle = mockBundles.find(b => b.id === bundleId);
     if (!bundle) return;
 
-    // Add all courses in the bundle to cart
-    bundle.courses.forEach((course) => {
-      addToCart({
-        id: course.id,
-        title: course.title,
-        price: course.price,
-        originalPrice: course.originalPrice,
-        discount: course.discount,
-        category: course.category,
-        image: course.image,
-      });
+    // Add bundle as a single item to cart
+    addToCart({
+      id: bundle.id * 1000, // Use high ID to avoid conflicts with course IDs
+      title: bundle.title,
+      price: bundle.bundlePrice,
+      originalPrice: bundle.originalTotalPrice,
+      discount: Math.round((bundle.savings / bundle.originalTotalPrice) * 100),
+      category: bundle.category,
+      isBundle: true,
+      bundleSlug: bundle.slug,
+      includedCourses: bundle.courses.map(c => c.title),
     });
 
     toast({

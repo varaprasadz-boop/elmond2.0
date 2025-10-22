@@ -163,23 +163,13 @@ export default function Cart() {
                       </div>
 
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-semibold text-lg mb-2" data-testid={`text-cart-item-title-${item.id}`}>
-                          {item.title}
-                        </h3>
-                        <p className="text-sm text-muted-foreground mb-4">{item.category}</p>
-                        
-                        <div className="flex items-center justify-between gap-4">
-                          <div className="flex items-baseline gap-2">
-                            <span className="text-2xl font-bold text-primary" data-testid={`text-cart-item-price-${item.id}`}>
-                              ₹{item.price.toFixed(2)}
-                            </span>
-                            {item.discount > 0 && (
-                              <span className="text-sm text-muted-foreground line-through">
-                                ₹{item.originalPrice.toFixed(2)}
-                              </span>
-                            )}
+                        <div className="flex items-start justify-between gap-4 mb-2">
+                          <div className="flex-1">
+                            <h3 className="font-semibold text-lg" data-testid={`text-cart-item-title-${item.id}`}>
+                              {item.title}
+                            </h3>
+                            <p className="text-sm text-muted-foreground">{item.category}</p>
                           </div>
-
                           <Button
                             variant="ghost"
                             size="icon"
@@ -188,6 +178,36 @@ export default function Cart() {
                           >
                             <Trash2 className="h-5 w-5" />
                           </Button>
+                        </div>
+
+                        {item.isBundle && item.includedCourses && (
+                          <div className="mb-3 p-3 bg-muted/50 rounded-md">
+                            <p className="text-xs font-semibold text-muted-foreground mb-2">INCLUDES {item.includedCourses.length} COURSES:</p>
+                            <ul className="space-y-1">
+                              {item.includedCourses.map((courseName, idx) => (
+                                <li key={idx} className="text-xs text-muted-foreground flex items-center gap-1">
+                                  <span className="w-1 h-1 rounded-full bg-primary"></span>
+                                  {courseName}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        
+                        <div className="flex items-baseline gap-2">
+                          <span className="text-2xl font-bold text-primary" data-testid={`text-cart-item-price-${item.id}`}>
+                            ₹{item.price.toFixed(2)}
+                          </span>
+                          {item.discount > 0 && (
+                            <>
+                              <span className="text-sm text-muted-foreground line-through">
+                                ₹{item.originalPrice.toFixed(2)}
+                              </span>
+                              <span className="text-xs font-semibold text-green-600">
+                                {item.discount}% OFF
+                              </span>
+                            </>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -458,23 +478,13 @@ export default function Cart() {
                         </div>
 
                         <div className="flex-1 min-w-0">
-                          <h3 className="font-semibold text-lg mb-2" data-testid={`text-cart-item-title-${item.id}`}>
-                            {item.title}
-                          </h3>
-                          <p className="text-sm text-muted-foreground mb-4">{item.category}</p>
-                          
-                          <div className="flex items-center justify-between gap-4">
-                            <div className="flex items-baseline gap-2">
-                              <span className="text-2xl font-bold text-primary" data-testid={`text-cart-item-price-${item.id}`}>
-                                ₹{item.price.toFixed(2)}
-                              </span>
-                              {item.discount > 0 && (
-                                <span className="text-sm text-muted-foreground line-through">
-                                  ₹{item.originalPrice.toFixed(2)}
-                                </span>
-                              )}
+                          <div className="flex items-start justify-between gap-4 mb-2">
+                            <div className="flex-1">
+                              <h3 className="font-semibold text-lg" data-testid={`text-cart-item-title-${item.id}`}>
+                                {item.title}
+                              </h3>
+                              <p className="text-sm text-muted-foreground">{item.category}</p>
                             </div>
-
                             <Button
                               variant="ghost"
                               size="icon"
@@ -483,6 +493,36 @@ export default function Cart() {
                             >
                               <Trash2 className="h-5 w-5" />
                             </Button>
+                          </div>
+
+                          {item.isBundle && item.includedCourses && (
+                            <div className="mb-3 p-3 bg-muted/50 rounded-md">
+                              <p className="text-xs font-semibold text-muted-foreground mb-2">INCLUDES {item.includedCourses.length} COURSES:</p>
+                              <ul className="space-y-1">
+                                {item.includedCourses.map((courseName, idx) => (
+                                  <li key={idx} className="text-xs text-muted-foreground flex items-center gap-1">
+                                    <span className="w-1 h-1 rounded-full bg-primary"></span>
+                                    {courseName}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                          
+                          <div className="flex items-baseline gap-2">
+                            <span className="text-2xl font-bold text-primary" data-testid={`text-cart-item-price-${item.id}`}>
+                              ₹{item.price.toFixed(2)}
+                            </span>
+                            {item.discount > 0 && (
+                              <>
+                                <span className="text-sm text-muted-foreground line-through">
+                                  ₹{item.originalPrice.toFixed(2)}
+                                </span>
+                                <span className="text-xs font-semibold text-green-600">
+                                  {item.discount}% OFF
+                                </span>
+                              </>
+                            )}
                           </div>
                         </div>
                       </div>
