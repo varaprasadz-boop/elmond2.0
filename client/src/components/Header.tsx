@@ -74,6 +74,11 @@ export default function Header() {
                 Courses
               </Button>
             </Link>
+            <Link href="/bundled-courses" data-testid="link-nav-bundled-courses">
+              <Button variant="ghost" className="text-base">
+                Bundled Courses
+              </Button>
+            </Link>
             <Link href="/blog" data-testid="link-nav-blog">
               <Button variant="ghost" className="text-base">
                 Blog
@@ -204,6 +209,11 @@ export default function Header() {
               <Link href="/course" data-testid="link-mobile-courses">
                 <Button variant="ghost" className="w-full justify-start">
                   Courses
+                </Button>
+              </Link>
+              <Link href="/bundled-courses" data-testid="link-mobile-bundled-courses">
+                <Button variant="ghost" className="w-full justify-start">
+                  Bundled Courses
                 </Button>
               </Link>
               <Link href="/blog" data-testid="link-mobile-blog">

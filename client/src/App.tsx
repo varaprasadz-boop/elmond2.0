@@ -14,6 +14,7 @@ import ScrollToTop from "@/components/ScrollToTop";
 import Home from "@/pages/Home";
 import Courses from "@/pages/Courses";
 import CourseDetail from "@/pages/CourseDetail";
+import BundledCourses from "@/pages/BundledCourses";
 import Categories from "@/pages/Categories";
 import Blog from "@/pages/Blog";
 import BlogDetail from "@/pages/BlogDetail";
@@ -44,6 +45,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/course" component={Courses} />
       <Route path="/course/:slug" component={CourseDetail} />
+      <Route path="/bundled-courses" component={BundledCourses} />
       <Route path="/categories" component={Categories} />
       <Route path="/blog" component={Blog} />
       <Route path="/blog/:slug" component={BlogDetail} />

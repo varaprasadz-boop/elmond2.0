@@ -28,6 +28,18 @@ export interface BlogPost {
   category?: string;
 }
 
+export interface CourseBundle {
+  id: number;
+  slug: string;
+  title: string;
+  description: string;
+  courses: Course[];
+  originalTotalPrice: number;
+  bundlePrice: number;
+  savings: number;
+  category: string;
+}
+
 export const mockCourses: Course[] = [
   { 
     id: 4, 
@@ -178,6 +190,67 @@ export const mockBlogs: BlogPost[] = [
     author: "Mike Wilson",
     date: "Mar 5, 2024",
     category: "SEO",
+  },
+];
+
+export const mockBundles: CourseBundle[] = [
+  {
+    id: 1,
+    slug: "digital-marketing-starter-bundle",
+    title: "Digital Marketing Starter Bundle",
+    description: "Perfect for beginners! Get started with digital marketing fundamentals and SEO mastery.",
+    courses: [
+      mockCourses.find(c => c.id === 4)!, // Basics of Digital Marketing (₹899.10)
+      mockCourses.find(c => c.id === 5)!, // SEO Mastery (₹949.05)
+    ],
+    originalTotalPrice: 1848.15, // 899.10 + 949.05
+    bundlePrice: 1399.00,
+    savings: 449.15,
+    category: "Digital Marketing",
+  },
+  {
+    id: 2,
+    slug: "paid-advertising-mastery-bundle",
+    title: "Paid Advertising Mastery Bundle",
+    description: "Master both Meta Ads and Google Ads with this comprehensive advertising bundle.",
+    courses: [
+      mockCourses.find(c => c.id === 6)!, // Meta Ads Mastery (₹1899.05)
+      mockCourses.find(c => c.id === 7)!, // Google Ads Mastery (₹1899.05)
+    ],
+    originalTotalPrice: 3798.10, // 1899.05 + 1899.05
+    bundlePrice: 2999.00,
+    savings: 799.10,
+    category: "Digital Marketing",
+  },
+  {
+    id: 3,
+    slug: "complete-digital-marketing-bundle",
+    title: "Complete Digital Marketing Bundle",
+    description: "Everything you need to become a digital marketing expert - from basics to advanced strategies.",
+    courses: [
+      mockCourses.find(c => c.id === 4)!, // Basics of Digital Marketing
+      mockCourses.find(c => c.id === 5)!, // SEO Mastery
+      mockCourses.find(c => c.id === 8)!, // Ad Copy Mastery
+      mockCourses.find(c => c.id === 10)!, // Digital Marketing Mastery
+    ],
+    originalTotalPrice: 8021.25, // Sum of all 4 courses
+    bundlePrice: 5499.00,
+    savings: 2522.25,
+    category: "Digital Marketing",
+  },
+  {
+    id: 4,
+    slug: "advertising-essentials-bundle",
+    title: "Advertising Essentials Bundle",
+    description: "Learn to create compelling ads and run successful campaigns on Meta and Google.",
+    courses: [
+      mockCourses.find(c => c.id === 6)!, // Meta Ads Mastery
+      mockCourses.find(c => c.id === 8)!, // Ad Copy Mastery
+    ],
+    originalTotalPrice: 3323.10, // 1899.05 + 1424.05
+    bundlePrice: 2499.00,
+    savings: 824.10,
+    category: "Digital Marketing",
   },
 ];
 
