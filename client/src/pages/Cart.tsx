@@ -301,48 +301,57 @@ export default function Cart() {
                   </div>
 
                   <div className="space-y-4">
-                    <div>
-                      <Label htmlFor="firstName">First Name *</Label>
-                      <Input
-                        id="firstName"
-                        value={guestFormData.firstName}
-                        onChange={(e) => setGuestFormData({ ...guestFormData, firstName: e.target.value })}
-                        placeholder="First Name"
-                        data-testid="input-guest-firstname"
-                      />
+                    {/* Name fields in 2 columns */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="firstName">First Name *</Label>
+                        <Input
+                          id="firstName"
+                          value={guestFormData.firstName}
+                          onChange={(e) => setGuestFormData({ ...guestFormData, firstName: e.target.value })}
+                          placeholder="First Name"
+                          data-testid="input-guest-firstname"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="lastName">Last Name *</Label>
+                        <Input
+                          id="lastName"
+                          value={guestFormData.lastName}
+                          onChange={(e) => setGuestFormData({ ...guestFormData, lastName: e.target.value })}
+                          placeholder="Last Name"
+                          data-testid="input-guest-lastname"
+                        />
+                      </div>
                     </div>
-                    <div>
-                      <Label htmlFor="lastName">Last Name *</Label>
-                      <Input
-                        id="lastName"
-                        value={guestFormData.lastName}
-                        onChange={(e) => setGuestFormData({ ...guestFormData, lastName: e.target.value })}
-                        placeholder="Last Name"
-                        data-testid="input-guest-lastname"
-                      />
+
+                    {/* Email and Phone in 2 columns */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="email">Email address *</Label>
+                        <Input
+                          id="email"
+                          type="email"
+                          value={guestFormData.email}
+                          onChange={(e) => setGuestFormData({ ...guestFormData, email: e.target.value })}
+                          placeholder="Email address"
+                          data-testid="input-guest-email"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="phone">Phone *</Label>
+                        <Input
+                          id="phone"
+                          type="tel"
+                          value={guestFormData.phone}
+                          onChange={(e) => setGuestFormData({ ...guestFormData, phone: e.target.value })}
+                          placeholder="Phone"
+                          data-testid="input-guest-phone"
+                        />
+                      </div>
                     </div>
-                    <div>
-                      <Label htmlFor="email">Email address *</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        value={guestFormData.email}
-                        onChange={(e) => setGuestFormData({ ...guestFormData, email: e.target.value })}
-                        placeholder="Email address"
-                        data-testid="input-guest-email"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="phone">Phone *</Label>
-                      <Input
-                        id="phone"
-                        type="tel"
-                        value={guestFormData.phone}
-                        onChange={(e) => setGuestFormData({ ...guestFormData, phone: e.target.value })}
-                        placeholder="Phone"
-                        data-testid="input-guest-phone"
-                      />
-                    </div>
+
+                    {/* Address full width */}
                     <div>
                       <Label htmlFor="address">Address *</Label>
                       <Input
@@ -353,26 +362,32 @@ export default function Cart() {
                         data-testid="input-guest-address"
                       />
                     </div>
-                    <div>
-                      <Label htmlFor="city">City / Town *</Label>
-                      <Input
-                        id="city"
-                        value={guestFormData.city}
-                        onChange={(e) => setGuestFormData({ ...guestFormData, city: e.target.value })}
-                        placeholder="City / Town"
-                        data-testid="input-guest-city"
-                      />
+
+                    {/* City and State in 2 columns */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="city">City / Town *</Label>
+                        <Input
+                          id="city"
+                          value={guestFormData.city}
+                          onChange={(e) => setGuestFormData({ ...guestFormData, city: e.target.value })}
+                          placeholder="City / Town"
+                          data-testid="input-guest-city"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="state">State *</Label>
+                        <Input
+                          id="state"
+                          value={guestFormData.state}
+                          onChange={(e) => setGuestFormData({ ...guestFormData, state: e.target.value })}
+                          placeholder="State"
+                          data-testid="input-guest-state"
+                        />
+                      </div>
                     </div>
-                    <div>
-                      <Label htmlFor="state">State *</Label>
-                      <Input
-                        id="state"
-                        value={guestFormData.state}
-                        onChange={(e) => setGuestFormData({ ...guestFormData, state: e.target.value })}
-                        placeholder="State"
-                        data-testid="input-guest-state"
-                      />
-                    </div>
+
+                    {/* Country full width */}
                     <div>
                       <Label htmlFor="country">Select Country *</Label>
                       <Select
@@ -391,27 +406,31 @@ export default function Cart() {
                         </SelectContent>
                       </Select>
                     </div>
-                    <div>
-                      <Label htmlFor="password">Password *</Label>
-                      <Input
-                        id="password"
-                        type="password"
-                        value={guestFormData.password}
-                        onChange={(e) => setGuestFormData({ ...guestFormData, password: e.target.value })}
-                        placeholder="Password"
-                        data-testid="input-guest-password"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="confirmPassword">Confirm Password *</Label>
-                      <Input
-                        id="confirmPassword"
-                        type="password"
-                        value={guestFormData.confirmPassword}
-                        onChange={(e) => setGuestFormData({ ...guestFormData, confirmPassword: e.target.value })}
-                        placeholder="Confirm Password"
-                        data-testid="input-guest-confirm-password"
-                      />
+
+                    {/* Password fields in 2 columns */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="password">Password *</Label>
+                        <Input
+                          id="password"
+                          type="password"
+                          value={guestFormData.password}
+                          onChange={(e) => setGuestFormData({ ...guestFormData, password: e.target.value })}
+                          placeholder="Password"
+                          data-testid="input-guest-password"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="confirmPassword">Confirm Password *</Label>
+                        <Input
+                          id="confirmPassword"
+                          type="password"
+                          value={guestFormData.confirmPassword}
+                          onChange={(e) => setGuestFormData({ ...guestFormData, confirmPassword: e.target.value })}
+                          placeholder="Confirm Password"
+                          data-testid="input-guest-confirm-password"
+                        />
+                      </div>
                     </div>
                   </div>
                 </CardContent>
