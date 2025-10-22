@@ -9,7 +9,6 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import WhatsAppButton from "@/components/WhatsAppButton";
 import CookieConsent from "@/components/CookieConsent";
 import ScrollToTop from "@/components/ScrollToTop";
 import Home from "@/pages/Home";
@@ -128,7 +127,6 @@ function AppContent() {
           <Toaster />
           <CookieConsent />
         </SidebarProvider>
-        <WhatsAppButton />
       </>
     );
   }
@@ -145,7 +143,6 @@ function AppContent() {
         <CookieConsent />
         <Toaster />
       </div>
-      <WhatsAppButton />
     </>
   );
 }
