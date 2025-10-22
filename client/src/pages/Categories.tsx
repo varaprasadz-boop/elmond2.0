@@ -1,4 +1,5 @@
 import CategoryCard from "@/components/CategoryCard";
+import Breadcrumb from "@/components/Breadcrumb";
 
 //todo: remove mock functionality - mock category data
 const mockCategories = [
@@ -16,6 +17,8 @@ export default function Categories() {
   return (
     <div className="min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Breadcrumb items={[{ label: "Categories" }]} />
+        
         <div className="mb-8">
           <h1 className="font-display font-bold text-3xl md:text-4xl mb-2">Categories</h1>
           <p className="text-muted-foreground">Explore all available course categories</p>

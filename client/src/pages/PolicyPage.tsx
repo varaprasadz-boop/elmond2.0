@@ -1,6 +1,6 @@
 import { useRoute, Link } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
-import { ChevronRight } from "lucide-react";
+import Breadcrumb from "@/components/Breadcrumb";
 
 const policyContent: Record<string, { title: string; content: JSX.Element }> = {
   "privacy-policy": {
@@ -162,11 +162,7 @@ export default function PolicyPage() {
   return (
     <div className="min-h-screen py-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
-          <Link href="/" className="hover:text-primary" data-testid="link-breadcrumb-home">Home</Link>
-          <ChevronRight className="h-4 w-4" />
-          <span className="text-foreground">{policy.title}</span>
-        </nav>
+        <Breadcrumb items={[{ label: policy.title }]} />
 
         <h1 className="font-display font-bold text-3xl md:text-4xl mb-8" data-testid="text-policy-title">
           {policy.title}

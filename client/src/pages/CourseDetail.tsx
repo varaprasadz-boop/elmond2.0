@@ -10,6 +10,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import Breadcrumb from "@/components/Breadcrumb";
 import { Clock, Users, Star, BookOpen, FileText, Award, Calendar, ChevronRight, Lock } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { useToast } from "@/hooks/use-toast";
@@ -114,15 +115,12 @@ export default function CourseDetail() {
   return (
     <div className="min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-6">
-          <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-            <Link href="/" className="hover:text-primary" data-testid="link-breadcrumb-home">Home</Link>
-            <ChevronRight className="h-4 w-4" />
-            <Link href="/course" className="hover:text-primary" data-testid="link-breadcrumb-courses">Courses</Link>
-            <ChevronRight className="h-4 w-4" />
-            <span className="text-foreground">{course.title}</span>
-          </nav>
+        <Breadcrumb items={[
+          { label: "Courses", href: "/course" },
+          { label: course.title }
+        ]} />
 
+        <div className="mb-6">
           <Badge className="mb-4">{course.category}</Badge>
           <h1 className="font-display font-bold text-3xl md:text-4xl mb-4" data-testid="text-course-title">
             {course.title}

@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import Breadcrumb from "@/components/Breadcrumb";
 import { Phone, Mail, MapPin } from "lucide-react";
 import { useState } from "react";
 
@@ -24,6 +25,8 @@ export default function Contact() {
   return (
     <div className="min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Breadcrumb items={[{ label: "Contact Us" }]} />
+        
         <div className="mb-8">
           <h1 className="font-display font-bold text-3xl md:text-4xl mb-2">Contact Us</h1>
           <p className="text-muted-foreground">Get in touch with our team</p>

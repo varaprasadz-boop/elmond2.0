@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Breadcrumb from "@/components/Breadcrumb";
 import { Camera, Save, Lock } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
@@ -50,6 +51,11 @@ export default function UserProfile() {
   return (
     <div className="min-h-screen py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Breadcrumb items={[
+          { label: "Dashboard", href: "/dashboard" },
+          { label: "Profile Settings" }
+        ]} />
+        
         <h1 className="font-display font-bold text-3xl mb-8">Profile Settings</h1>
 
         <Tabs defaultValue="profile" className="space-y-6">

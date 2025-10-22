@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import Breadcrumb from "@/components/Breadcrumb";
 import { mockBundles } from "@/data/mockData";
 import { ShoppingCart, Check, Package } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
@@ -37,6 +38,8 @@ export default function BundledCourses() {
   return (
     <div className="min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Breadcrumb items={[{ label: "Bundled Courses" }]} />
+        
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-4">

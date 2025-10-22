@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Breadcrumb from "@/components/Breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Download, CreditCard } from "lucide-react";
@@ -56,6 +57,11 @@ export default function MyPurchases() {
   return (
     <div className="min-h-screen py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Breadcrumb items={[
+          { label: "Dashboard", href: "/dashboard" },
+          { label: "My Purchases" }
+        ]} />
+        
         <div className="mb-8">
           <h1 className="font-display font-bold text-3xl md:text-4xl mb-2">My Purchases</h1>
           <p className="text-muted-foreground">View your order history and download receipts</p>

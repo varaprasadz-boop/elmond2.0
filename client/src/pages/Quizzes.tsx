@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Breadcrumb from "@/components/Breadcrumb";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -95,6 +96,11 @@ export default function Quizzes() {
 
   return (
     <div className="container mx-auto p-6 space-y-6">
+      <Breadcrumb items={[
+        { label: "Dashboard", href: "/dashboard" },
+        { label: "Quiz Results" }
+      ]} />
+      
       <div>
         <h1 className="text-3xl font-bold">Quiz Result Lists</h1>
       </div>

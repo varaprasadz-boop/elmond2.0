@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import Breadcrumb from "@/components/Breadcrumb";
 import { useLocation } from "wouter";
 import { CreditCard, Smartphone, Tag } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -131,6 +132,11 @@ export default function Checkout() {
   return (
     <div className="min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Breadcrumb items={[
+          { label: "Cart", href: "/cart" },
+          { label: "Checkout" }
+        ]} />
+        
         <h1 className="font-display font-bold text-3xl md:text-4xl mb-8">Checkout</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

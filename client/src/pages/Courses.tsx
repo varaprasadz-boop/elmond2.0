@@ -1,5 +1,6 @@
 import { useState } from "react";
 import CourseCard from "@/components/CourseCard";
+import Breadcrumb from "@/components/Breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
@@ -24,6 +25,8 @@ export default function Courses() {
   return (
     <div className="min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Breadcrumb items={[{ label: "Courses" }]} />
+        
         <div className="mb-8">
           <h1 className="font-display font-bold text-3xl md:text-4xl mb-2">Course</h1>
           <p className="text-muted-foreground">Browse our comprehensive course catalog</p>

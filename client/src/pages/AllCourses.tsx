@@ -1,4 +1,5 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import Breadcrumb from "@/components/Breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -23,6 +24,11 @@ export default function AllCourses() {
   return (
     <div className="min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Breadcrumb items={[
+          { label: "Courses", href: "/course" },
+          { label: "All Courses" }
+        ]} />
+        
         <div className="mb-8">
           <h1 className="font-display font-bold text-3xl md:text-4xl mb-2">All Courses</h1>
           <p className="text-muted-foreground">Explore our complete course catalog</p>

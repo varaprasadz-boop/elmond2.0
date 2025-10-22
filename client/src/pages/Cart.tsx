@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import Breadcrumb from "@/components/Breadcrumb";
 import { Trash2, ShoppingCart, Tag, X } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { useToast } from "@/hooks/use-toast";
@@ -134,11 +135,10 @@ export default function Cart() {
   return (
     <div className="min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Breadcrumb items={[{ label: "Shopping Cart" }]} />
+        
         <div className="mb-6">
           <h1 className="font-display font-bold text-3xl md:text-4xl">Shopping Cart</h1>
-          <p className="text-muted-foreground mt-2">
-            Home / <span className="text-foreground">Shopping Cart</span>
-          </p>
         </div>
 
 {isAuthenticated ? (

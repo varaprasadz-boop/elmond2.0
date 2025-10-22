@@ -1,4 +1,5 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import Breadcrumb from "@/components/Breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -77,6 +78,11 @@ export default function Payments() {
 
   return (
     <div className="container mx-auto p-6 space-y-6">
+      <Breadcrumb items={[
+        { label: "Dashboard", href: "/dashboard" },
+        { label: "Payment Methods" }
+      ]} />
+      
       <div>
         <h1 className="text-3xl font-bold">Payment Methods</h1>
         <p className="text-muted-foreground">Manage your payment methods and billing history</p>

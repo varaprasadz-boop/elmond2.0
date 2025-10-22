@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Breadcrumb from "@/components/Breadcrumb";
 import { Link } from "wouter";
 import {
   BookOpen,
@@ -244,6 +245,11 @@ export default function MyCourses() {
   return (
     <div className="min-h-screen py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Breadcrumb items={[
+          { label: "Dashboard", href: "/dashboard" },
+          { label: "My Courses" }
+        ]} />
+        
         <div className="mb-8">
           <h1 className="font-display font-bold text-3xl md:text-4xl mb-2">My Courses</h1>
           <p className="text-muted-foreground">Track your learning progress and continue where you left off</p>

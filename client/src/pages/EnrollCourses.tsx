@@ -1,4 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import Breadcrumb from "@/components/Breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -68,6 +69,11 @@ export default function EnrollCourses() {
 
   return (
     <div className="container mx-auto p-6 space-y-8">
+      <Breadcrumb items={[
+        { label: "Dashboard", href: "/dashboard" },
+        { label: "Enroll in Courses" }
+      ]} />
+      
       <div>
         <h1 className="text-3xl font-bold">Enroll in Courses</h1>
         <p className="text-muted-foreground">Manage your course enrollment requests</p>

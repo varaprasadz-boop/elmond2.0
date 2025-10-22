@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import Breadcrumb from "@/components/Breadcrumb";
 import { useState } from "react";
 import { CreditCard, Smartphone, Clock, BookOpen, Award } from "lucide-react";
 import { getCourseBySlug } from "@/data/mockData";
@@ -61,6 +62,12 @@ export default function Enroll() {
   return (
     <div className="min-h-screen py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Breadcrumb items={[
+          { label: "Courses", href: "/course" },
+          { label: course.title, href: `/course/${course.slug}` },
+          { label: "Enroll Now" }
+        ]} />
+        
         <h1 className="font-display font-bold text-3xl md:text-4xl mb-8">Enroll Now</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

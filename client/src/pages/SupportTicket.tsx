@@ -1,4 +1,5 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import Breadcrumb from "@/components/Breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -153,6 +154,11 @@ export default function SupportTicket() {
 
   return (
     <div className="container mx-auto p-6 space-y-6">
+      <Breadcrumb items={[
+        { label: "Dashboard", href: "/dashboard" },
+        { label: "Support Tickets" }
+      ]} />
+      
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Support Tickets</h1>

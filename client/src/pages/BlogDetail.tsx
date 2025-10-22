@@ -1,7 +1,7 @@
 import { useRoute, Link } from "wouter";
-import { Calendar, ChevronRight } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-
+import Breadcrumb from "@/components/Breadcrumb";
 import { getBlogBySlug } from "@/data/mockData";
 import { Button } from "@/components/ui/button";
 
@@ -57,13 +57,10 @@ export default function BlogDetail() {
   return (
     <div className="min-h-screen py-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
-          <Link href="/" className="hover:text-primary" data-testid="link-breadcrumb-home">Home</Link>
-          <ChevronRight className="h-4 w-4" />
-          <Link href="/blog" className="hover:text-primary" data-testid="link-breadcrumb-blog">Blog</Link>
-          <ChevronRight className="h-4 w-4" />
-          <span className="text-foreground">{blog.title}</span>
-        </nav>
+        <Breadcrumb items={[
+          { label: "Blog", href: "/blog" },
+          { label: blog.title }
+        ]} />
 
         <div className="aspect-video bg-gradient-to-br from-primary/10 to-accent/10 rounded-lg mb-8 flex items-center justify-center">
           <span className="text-9xl font-display font-bold text-primary/20">B</span>

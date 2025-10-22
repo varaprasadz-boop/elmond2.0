@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Checkbox } from "@/components/ui/checkbox";
+import Breadcrumb from "@/components/Breadcrumb";
 import {
   Accordion,
   AccordionContent,
@@ -108,7 +109,14 @@ export default function Learn() {
     <div className="flex h-screen">
       <div className="flex-1 flex flex-col">
         <div className="border-b p-4">
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Breadcrumb items={[
+              { label: "Dashboard", href: "/dashboard" },
+              { label: "My Courses", href: "/my-courses" },
+              { label: course.title }
+            ]} />
+          </div>
+          <div className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 mt-4">
             <div className="flex-1 min-w-0">
               <h1 className="font-display font-bold text-xl truncate" data-testid="text-learn-course-title">
                 {course.title}

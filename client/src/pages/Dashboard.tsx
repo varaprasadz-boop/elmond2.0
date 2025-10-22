@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import Breadcrumb from "@/components/Breadcrumb";
 import { Link } from "wouter";
 import {
   BookOpen,
@@ -110,6 +111,8 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Breadcrumb items={[{ label: "Dashboard" }]} />
+        
         <div className="mb-8">
           <div className="flex items-center gap-4 mb-2">
             <Avatar className="h-16 w-16">

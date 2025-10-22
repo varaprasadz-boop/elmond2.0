@@ -1,4 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import Breadcrumb from "@/components/Breadcrumb";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -115,6 +116,11 @@ export default function Transactions() {
 
   return (
     <div className="container mx-auto p-6 space-y-6">
+      <Breadcrumb items={[
+        { label: "Dashboard", href: "/dashboard" },
+        { label: "Transactions" }
+      ]} />
+      
       <div>
         <h1 className="text-3xl font-bold">Transactions</h1>
         <p className="text-muted-foreground">View your complete transaction history</p>

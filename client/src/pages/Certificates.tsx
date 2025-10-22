@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
+import Breadcrumb from "@/components/Breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Award, Download, Share2, Calendar } from "lucide-react";
@@ -33,6 +34,11 @@ export default function Certificates() {
   return (
     <div className="min-h-screen py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Breadcrumb items={[
+          { label: "Dashboard", href: "/dashboard" },
+          { label: "My Certificates" }
+        ]} />
+        
         <div className="mb-8">
           <h1 className="font-display font-bold text-3xl md:text-4xl mb-2">My Certificates</h1>
           <p className="text-muted-foreground">Your earned certificates and achievements</p>
