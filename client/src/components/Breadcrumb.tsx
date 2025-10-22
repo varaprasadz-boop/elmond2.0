@@ -12,11 +12,11 @@ interface BreadcrumbProps {
 
 export default function Breadcrumb({ items }: BreadcrumbProps) {
   return (
-    <nav className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-6 overflow-x-auto scrollbar-hide pb-1" data-testid="breadcrumb-nav">
+    <nav className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm text-muted-foreground mb-4 sm:mb-6 overflow-x-auto hide-scrollbar pb-1" data-testid="breadcrumb-nav">
       <Link href="/" data-testid="breadcrumb-home">
         <span className="flex items-center gap-1 hover:text-foreground transition-colors cursor-pointer whitespace-nowrap">
           <Home className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0" />
-          <span className="hidden sm:inline">Home</span>
+          <span className="sr-only sm:not-sr-only">Home</span>
         </span>
       </Link>
       
